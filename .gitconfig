@@ -1,0 +1,12 @@
+[color]
+	pager = no
+	ui = auto
+[core]
+	pager = most
+[user]
+	name = Renny Hoang
+	email = renny@rennyhoang.com
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false

@@ -1,0 +1,10 @@
+import = [
+  "~/.config/alacritty/catppuccin-mocha.toml"
+]
+
+[window]
+opacity = 0.95
+
+[cursor]
+[cursor.style]
+blinking = "Always"
