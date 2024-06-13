@@ -2,7 +2,12 @@
 border-size=2
 border-radius=4
 icons=0
-font=monospace 8
+font=monospace 12
+history=0
+max-history=0
+max-visible=1
+on-button-left=dismiss-all
+default-timeout=2000
 
 # Colors
 background-color=#1e1e2e
