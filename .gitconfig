@@ -1,9 +1,9 @@
 [user]
 	name = Renny Hoang
 	email = renny@rennyhoang.com
-[init]
-	defaultBranch = main
 [color]
 	ui = auto
 [pull]
 	rebase = false
+[init]
+	defaultBranch = main

@@ -24,7 +24,6 @@ return {
 				null_ls.builtins.formatting.prettier,
 				null_ls.builtins.formatting.black,
 				null_ls.builtins.formatting.isort,
-				require("none-ls.diagnostics.eslint_d"),
 			},
 		})
 	end,
