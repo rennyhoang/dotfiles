@@ -3,20 +3,26 @@
 ----------------------
 
 -- leader keys
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
 ------------------
 -- INSTALL LAZY --
 ------------------
 
-local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-    vim.fn.system({ 'git', 'clone', '--filter=blob:none', 'https://github.com/folke/lazy.nvim.git',
-    '--branch=stable', lazypath })
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazypath,
+  })
 end
 vim.opt.rtp:prepend(lazypath)
-require('lazy').setup('plugins')
+require("lazy").setup("plugins")
 
 -------------
 -- OPTIONS --
@@ -37,18 +43,18 @@ vim.opt.smartcase = true
 
 -- clear highlight when searching
 vim.opt.hlsearch = true
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- splits
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
 -- misc
-vim.opt.mouse = ''
-vim.opt.clipboard = 'unnamedplus'
+vim.opt.mouse = ""
+vim.opt.clipboard = "unnamedplus"
 vim.opt.breakindent = true
 vim.opt.undofile = true
-vim.opt.inccommand = 'split'
+vim.opt.inccommand = "split"
 -- vim.opt.cursorline = true
 vim.opt.scrolloff = 10
 vim.opt.showmode = false
@@ -59,9 +65,9 @@ vim.g.loaded_perl_provider = 0
 -- AUTOCOMMANDS --
 ------------------
 
-vim.api.nvim_create_autocmd('TextYankPost', {
-  desc = 'Highlight when yanking (copying) text',
-  group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
+vim.api.nvim_create_autocmd("TextYankPost", {
+  desc = "Highlight when yanking (copying) text",
+  group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
   callback = function()
     vim.highlight.on_yank()
   end,
@@ -80,11 +86,8 @@ vim.keymap.set("n", "H", "^")
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
 
--- oil
-vim.keymap.set("n", "-", "<CMD>Oil<CR>")
-
 -- telescope
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader><leader>', builtin.find_files, {})
-vim.keymap.set('n', '<leader>g', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>o', builtin.oldfiles, {})
+local builtin = require("telescope.builtin")
+vim.keymap.set("n", "<leader><leader>", builtin.find_files, {})
+vim.keymap.set("n", "<leader>g", builtin.live_grep, {})
+vim.keymap.set("n", "<leader>o", builtin.oldfiles, {})
