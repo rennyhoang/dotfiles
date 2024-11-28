@@ -1,0 +1,8 @@
+#compdef eza
+
+_eza() {
+  _arguments '*:files:_files'
+}
+
+compdef _eza eza
+compdef _eza ls

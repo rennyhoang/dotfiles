@@ -11,17 +11,19 @@ SAVEHIST=10000
 unsetopt beep
 bindkey -v
 
+zstyle ':completion:*' menu select
+zstyle ':completion:*' list-colors “${(s.:.)LS_COLORS}”
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle :compinstall filename '/home/renny/.config/zsh/.zshrc'
+
 autoload -Uz compinit
 compinit
 
-zstyle ':completion:*' menu select
-zstyle :compinstall filename '/home/renny/.config/zsh/.zshrc'
-
 ### ALIASES ###
 alias ls='eza -l --icons=always --color=always --no-user -F'
-alias la='eza -la --icons=always --color=always --no-user -F'
 alias rm='trash-put'
-alias n='nvim'
+alias df='duf'
+alias man='tldr'
 
 #### PLUGINS ####
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
