@@ -9,7 +9,7 @@ HISTSIZE=10000
 SAVEHIST=10000
 
 unsetopt beep
-bindkey -v
+bindkey -e
 
 zstyle ':completion:*' menu select
 zstyle ':completion:*' list-colors “${(s.:.)LS_COLORS}”
