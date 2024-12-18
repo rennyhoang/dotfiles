@@ -20,7 +20,7 @@ autoload -Uz compinit
 compinit
 
 ### ALIASES ###
-alias ls='eza -l --icons=always --color=always --no-user -F'
+alias ls='eza --icons=always --color=always -a'
 alias rm='trash-put'
 alias df='duf'
 alias man='tldr'

@@ -6,7 +6,7 @@ opacity = 0.90
 blinking = "Always"
 
 [font]
-size = 9 
+size = 12
 
 [general]
 import = [
