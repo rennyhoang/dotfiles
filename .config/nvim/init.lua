@@ -76,13 +76,12 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -------------
 -- KEYMAPS --
 -------------
-
 -- navigation --
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("i", "<C-c>", "<C-o>zz")
-vim.keymap.set("n", "L", "$")
 vim.keymap.set("n", "H", "^")
+vim.keymap.set("n", "L", "$")
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
 
