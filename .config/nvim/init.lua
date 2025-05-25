@@ -22,7 +22,6 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
-require("lazy").setup("plugins")
 
 -------------
 -- OPTIONS --
@@ -55,7 +54,7 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.breakindent = true
 vim.opt.undofile = true
 vim.opt.inccommand = "split"
--- vim.opt.cursorline = true
+vim.opt.cursorline = true
 vim.opt.scrolloff = 10
 vim.opt.showmode = false
 vim.opt.showcmd = false
@@ -73,13 +72,16 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
+-- load plugins
+require("lazy").setup("plugins")
+
+
 -------------
 -- KEYMAPS --
 -------------
 -- navigation --
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("i", "<C-c>", "<C-o>zz")
 vim.keymap.set("n", "H", "^")
 vim.keymap.set("n", "L", "$")
 vim.keymap.set("n", "j", "gj")

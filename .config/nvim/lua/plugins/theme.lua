@@ -7,7 +7,7 @@ return {
             transparent_background = true,
             custom_highlights = function(colors)
                 return {
-                    IncSearch = { bg = colors.lavender },
+                    IncSearch = { bg = colors.blue },
                 }
             end,
             integrations = {
