@@ -3,6 +3,4 @@
 .config/zsh/.zcompdump
 .config/zsh/history
 
-.config/go/*
-.config/go/telemetry/*
-.config/go/telemetry/local/*
+.config/go/**
