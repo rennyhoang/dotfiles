@@ -1,6 +1,8 @@
 ZDOTDIR=~/.config/zsh
 GEM_HOME="$(gem env user_gemhome)"
-PATH="$PATH:$GEM_HOME/bin:$HOME/.config/emacs/bin:$HOME/.dotnet/tools"
+PATH="$PATH:$GEM_HOME/bin:$HOME/.config/emacs/bin:$HOME/.dotnet/tools:$HOME/.config/composer/vendor/bin":$GOROOT/bin:$GOPATH/bin:$(go env GOPATH)/bin
 EDITOR="nvim"
 ELECTRON_OZONE_PLATFORM_HINT="wayland"
 LS_COLORS="$(vivid generate catppuccin-mocha)"
+PREFIX="$HOME/opt/cross"
+TARGET=i686-elf

@@ -24,6 +24,7 @@ alias ls='eza --icons=always --color=always -a'
 alias rm='trash-put'
 alias df='duf'
 alias man='tldr'
+alias mariadb='sudo mariadb -u root'
 
 #### PLUGINS ####
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

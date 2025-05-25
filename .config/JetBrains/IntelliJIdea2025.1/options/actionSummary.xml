@@ -1,0 +1,43 @@
+<application>
+  <component name="ActionsLocalSummary">
+    <e n="EditorBackSpace">
+      <i c="60" l="1741798679547" />
+    </e>
+    <e n="EditorDown">
+      <i c="20" l="1741798372823" />
+    </e>
+    <e n="EditorEnter">
+      <i c="36" l="1741798678911" />
+    </e>
+    <e n="EditorEscape">
+      <i c="5" l="1741798646906" />
+    </e>
+    <e n="EditorLeft">
+      <i c="1" l="1741798194298" />
+    </e>
+    <e n="EditorPaste">
+      <i c="1" l="1741798207110" />
+    </e>
+    <e n="EditorRight">
+      <i c="2" l="1741798370910" />
+    </e>
+    <e n="EditorTab">
+      <i c="4" l="1741798650668" />
+    </e>
+    <e n="EditorUp">
+      <i c="18" l="1741798606060" />
+    </e>
+    <e n="InsertInlineCompletionAction">
+      <i c="4" l="1741798665126" />
+    </e>
+    <e n="NewClass">
+      <i c="2" l="1741798125402" />
+    </e>
+    <e n="SaveAll">
+      <i c="2" l="1741798406749" />
+    </e>
+    <e n="com.jetbrains.rdserver.daemon.tooltips.BackendTooltipActionProvider$getAction$1">
+      <i c="1" l="1741798229017" />
+    </e>
+  </component>
+</application>

@@ -1,0 +1,26 @@
+<application>
+  <component name="RecentProjectsManager">
+    <option name="additionalInfo">
+      <map>
+        <entry key="$USER_HOME$/projects/lox">
+          <value>
+            <RecentProjectMetaInfo frameTitle="lox" opened="true" projectWorkspaceId="2uDzjvcsO5996zOo1GY7GvEbM7W">
+              <option name="activationTimestamp" value="1741798667054" />
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="build" value="IU-251.23774.16" />
+              <option name="buildTimestamp" value="1741150860000" />
+              <option name="colorInfo">
+                <RecentProjectColorInfo associatedIndex="6" />
+              </option>
+              <option name="eap" value="true" />
+              <frame x="-7" y="-7" width="1613" height="1013" />
+              <option name="productionCode" value="IU" />
+              <option name="projectOpenTimestamp" value="1741798072793" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="lastOpenedProject" value="$USER_HOME$/projects/lox" />
+  </component>
+</application>
