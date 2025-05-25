@@ -1,0 +1,1439 @@
+sudo pacman -S zsh-syntax-highlighting
+sudo pacman -S zsh-autosuggestions
+sudo pacman -S powerlevel10k
+sudo pacman -S zsh-powerlevel10k
+sudo pacman -S zsh-theme-powerlevel10k
+paru -S zsh-theme-powerlevel10k
+paru -S zsh-theme-powerlevel10k
+sudo pacman -S ttf-jetbrains-mono-nerd
+ls
+sudo pacman -S eza
+sudo pacman -S zoxide
+sudo pacman -S fzf
+sudo pacman -S gem
+sudo pacman -S ruby
+sudo pacman -S vivid
+cd .config/hyprland
+ls
+cd .config/hypr
+ls
+nvim hyprland.conf
+cd
+cd dotfiles
+ls
+cd .config
+ls
+cd hypr
+ls
+mv * ~/.config/hypr
+cd
+cd .config/hypr
+ls
+nvim hyprland.conf
+ls
+cd
+cd dotfiles/.config/hypr
+ls
+ls -a
+cd
+cd .config/hypr
+git pull
+cd
+cd dotfiles
+ls
+git pull
+ls
+cd .config/hypr
+ls
+ls -a
+nvim hyprland.conf
+sudo pacman -S fuzzel
+sudo pacman -S hyprpicker pavucontrol grim slurp
+sudo pacman -S hyprlock
+sudo pacman -S wl-copy
+wl-copy
+sudo pacman -S wl-clipboard
+sudo pacman -S btop
+paru -S catppuccin-cursors-mocha
+sudo pacman -S yazi
+cd .config/hypr
+ls
+nvim hyprland.conf
+sudo pacman -S waybar hyprsunset udiskie mako
+cd .config
+cd hypr
+ls
+cp hypridle.conf ~/dotfiles/.config/hypr/
+cp hyprlock.conf ~/dotfiles/.config/hypr/
+cp hyprpaper.conf ~/dotfiles/.config/hypr/
+cp mocha.conf ~/dotfiles/.config/hypr/
+cd
+cd dotfiles/.config/hypr
+ls
+cp hyprland.conf ~/.config/hypr/hyprland.conf
+cd
+cd .config/hyprland
+cd .config/hypr
+ls
+nvim hyprland.conf
+ls
+cd .config
+ls
+cd kitty
+ls
+cd ..
+ls
+ls
+cd
+cd Downloads
+ls
+  git clone https://github.com/sejjy/mechabar.git\
+  cd mechabar
+ls
+cd ..
+ls
+sudo pacman -S trash-cli
+ls
+rm -rf mechabar
+ls
+  git clone -b animated https://github.com/sejjy/mechabar.git\
+  cd mechabar
+./install.sh
+pavucontrol
+fc-list | grep Jetbrain
+fc-list | grep jetbrain
+fc-list | grep mono
+gc-list
+fc-list
+fc-list | grep JetBrains
+cd .config/mako
+ls
+nvim config
+notify-send bruh
+nvim config
+notify-send bruh
+nvim config
+pkill mako
+notify-send bruh
+notify-send bruh
+nvim
+cd
+ls -a
+nvim
+cd .config
+ls
+mkdir fontconfig
+cd fontconfig
+ls
+nvim fonts.conf
+mkdir media
+cd media
+mkdir pics
+cd pics
+mkdir wallpapers
+ls
+cd wallpapers
+ls
+cp ~/Downloads/mocha-swirl.png .
+ls
+ls
+cd .config/hypr
+ls
+nvim hyprland.conf
+nvim hyprpaper.conf
+cd .config/hyprpaper
+cd .config/hypr
+ls
+nvim hyprpaper.conf
+cd ~/media/pics/wallpapers
+ls
+hyprpaper
+sudo pacman -S hyprpaper
+nvim
+cd .config/waybar
+ls
+nvim config.jsonc
+pkill waybar
+waybar & disown
+cd waybar
+ls
+nvim config.jsonc
+pavucontrol
+sudo pacman -S sof-firmware
+reboot
+pkill waybar
+waybar
+cd .config/waybar
+ls
+nvim config.jsonc
+cd
+cd .config/waybar/script
+cd .config/waybar/scripts
+ls
+pavucontrol
+waybar & disown
+sudo tee /etc/systemd/system/yoga-16imh9-speakers.service <<EOF\
+[Unit]\
+Description=Turn on speakers using i2c configuration\
+After=suspend.target hibernate.target hybrid-sleep.target suspend-then-hibernate.target\
+\
+[Service]\
+User=root\
+Type=oneshot\
+ExecStart=/bin/sh -c "/usr/local/bin/2pa-byps.sh | logger"\
+\
+[Install]\
+WantedBy=multi-user.target sleep.target\
+Also=suspend.target hibernate.target hybrid-sleep.target suspend-then-hibernate.target\
+EOF
+cd /etc/systemd/system
+ls
+sudo pacman -Sy i2c-tools
+sudo tee /usr/local/bin/2pa-byps.sh <<'EOF'\
+#!/bin/bash\
+\
+export TERM=linux\
+# Some distros don't have i2c-dev module loaded by default, so we load it manually\
+\
+modprobe i2c-dev\
+# Function to find the correct I2C bus (third DesignWare adapter)\
+find_i2c_bus() {\
+    local adapter_description="Synopsys DesignWare I2C adapter"\
+    local dw_count=$(i2cdetect -l | grep -c "$adapter_description")\
+    if [ "$dw_count" -lt 3 ]; then\
+        echo "Error: Less than 3 DesignWare I2C adapters found." >&2\
+        return 1\
+    fi\
+    local bus_number=$(i2cdetect -l | grep "$adapter_description" | awk '{print $1}' | sed 's/i2c-//' | sed -n '3p')\
+    echo "$bus_number"\
+}\
+i2c_bus=$(find_i2c_bus)\
+if [ -z "$i2c_bus" ]; then\
+    echo "Error: Could not find the third DesignWare I2C bus for the audio IC." >&2\
+    exit 1\
+fi\
+echo "Using I2C bus: $i2c_bus"\
+i2c_addr=(0x3f 0x38)\
+\
+count=0\
+for value in "${i2c_addr[@]}"; do\
+    val=$((count % 2))\
+    i2cset -f -y "$i2c_bus" "$value" 0x00 0x00\
+    i2cset -f -y "$i2c_bus" "$value" 0x7f 0x00\
+    i2cset -f -y "$i2c_bus" "$value" 0x01 0x01\
+    i2cset -f -y "$i2c_bus" "$value" 0x0e 0xc4\
+    i2cset -f -y "$i2c_bus" "$value" 0x0f 0x40\
+    i2cset -f -y "$i2c_bus" "$value" 0x5c 0xd9\
+    i2cset -f -y "$i2c_bus" "$value" 0x60 0x10\
+    if [ $val -eq 0 ]; then\
+        i2cset -f -y "$i2c_bus" "$value" 0x0a 0x1e\
+    else\
+        i2cset -f -y "$i2c_bus" "$value" 0x0a 0x2e\
+    fi\
+    i2cset -f -y "$i2c_bus" "$value" 0x0d 0x01\
+    i2cset -f -y "$i2c_bus" "$value" 0x16 0x40\
+    i2cset -f -y "$i2c_bus" "$value" 0x00 0x01\
+    i2cset -f -y "$i2c_bus" "$value" 0x17 0xc8\
+    i2cset -f -y "$i2c_bus" "$value" 0x00 0x04\
+    i2cset -f -y "$i2c_bus" "$value" 0x30 0x00\
+    i2cset -f -y "$i2c_bus" "$value" 0x31 0x00\
+    i2cset -f -y "$i2c_bus" "$value" 0x32 0x00\
+    i2cset -f -y "$i2c_bus" "$value" 0x33 0x01\
+\
+    i2cset -f -y "$i2c_bus" "$value" 0x00 0x08\
+    i2cset -f -y "$i2c_bus" "$value" 0x18 0x00\
+    i2cset -f -y "$i2c_bus" "$value" 0x19 0x00\
+    i2cset -f -y "$i2c_bus" "$value" 0x1a 0x00\
+    i2cset -f -y "$i2c_bus" "$value" 0x1b 0x00\
+    i2cset -f -y "$i2c_bus" "$value" 0x28 0x40\
+    i2cset -f -y "$i2c_bus" "$value" 0x29 0x00\
+    i2cset -f -y "$i2c_bus" "$value" 0x2a 0x00\
+    i2cset -f -y "$i2c_bus" "$value" 0x2b 0x00\
+\
+    i2cset -f -y "$i2c_bus" "$value" 0x00 0x0a\
+    i2cset -f -y "$i2c_bus" "$value" 0x48 0x00\
+    i2cset -f -y "$i2c_bus" "$value" 0x49 0x00\
+    i2cset -f -y "$i2c_bus" "$value" 0x4a 0x00\
+    i2cset -f -y "$i2c_bus" "$value" 0x4b 0x00\
+    i2cset -f -y "$i2c_bus" "$value" 0x58 0x40\
+    i2cset -f -y "$i2c_bus" "$value" 0x59 0x00\
+    i2cset -f -y "$i2c_bus" "$value" 0x5a 0x00\
+    i2cset -f -y "$i2c_bus" "$value" 0x5b 0x00\
+\
+    i2cset -f -y "$i2c_bus" "$value" 0x00 0x00\
+    i2cset -f -y "$i2c_bus" "$value" 0x02 0x00\
+    count=$((count + 1))\
+done\
+EOF
+sudo chmod +x /usr/local/bin/2pa-byps.sh
+sudo systemctl daemon-reload\
+sudo systemctl enable --now yoga-16imh9-speakers.service
+sudo tee /etc/modprobe.d/disable-hda-power-save.conf <<EOF\
+blacklist snd_hda_scodec_tas2781_i2c\
+EOF\
+sudo rm -f /etc/udev/rules.d/99-i2c-power-control.rules
+sudo pacman -S ffmpeg
+Hyprland
+Hyprland
+iwctl
+reboot
+cd .config/hypr
+ls
+nvim hyprland.conf
+sudo pacman -S light
+paru -S light
+light
+light -U 10
+man light
+sudo pacman -S tldr
+man light
+light -S 60
+sudo pacman -S zip unzip
+sudo pacman -S npm
+ls
+cd .zen
+ls
+cd e28hs9ux.Default\ \(release\)/
+ls
+mkdir chrome
+cd chrome
+ls
+nvim userChrome.css
+nvim
+nvim userContent.css
+mv ~/Downloads/zen-logo-mocha.svg .
+ls
+ls
+cd
+ls
+nvim
+cd wallpapers
+ls
+nvim
+sudo pacman -S ttf-roboto
+ls
+mkdir scratchpad
+ls
+ls -a
+ls
+sudo pacman -S xdg-user-dirs
+ls
+xdg-user-dir 
+ls
+xdg-user-dir update
+ls
+xdg-user-dir -h
+man xdg-user-dir
+\man xdg-user-dir
+\man xdg-user-dir
+xdg-user-dirs-update
+ls
+cd .config
+ls
+nvim user-dirs.dirs
+c
+cd
+cd media
+ls
+mkdir vids
+mkdir music
+ls
+cd
+xdg-user-dirs-update
+mkdir dl
+mkdir docs
+cd .config
+nvim user-dirs.dirs
+cd
+xdg-user-dirs-update
+ls
+xdg-user-dirs-update
+ls -a
+rm -rf Music Pictures
+ls
+rm -rf Downloads Documents
+rm -rf Public Templates
+ls
+rm -rf Videos
+ls -a
+rm -rf Desktop
+ls
+cd .config/hypr
+ls
+nvim hyprland.conf
+ls
+nvim hyprlock.conf
+cd dl
+ls
+git clone https://github.com/EmKaCe/catppuccin-hyprcursors.git
+ls
+cd catppuccin-hyprcursors
+./build.sh
+ls
+nvim build
+ls
+nvim build.sh
+ls
+cd src
+ls
+yazi
+ls
+cd ..
+ls
+./build.sh
+ls
+cd dist
+ls
+cd theme_Catppuccin-Mocha-Lavender-Cursors
+ls
+cd
+cd .local/share
+ls
+mkdir icons
+cd
+ls
+paru -S catppuccin-cursors-mocha
+ls
+cp dl/catppuccin-hyprcursors/dist/theme_Catppuccin-Mocha-Lavender-Cursors/ ~/.local/share/icons/
+cp -r dl/catppuccin-hyprcursors/dist/theme_Catppuccin-Mocha-Lavender-Cursors/ ~/.local/share/icons/
+cd .local/share/icons
+ls
+ls
+cd theme_Catppuccin-Mocha-Lavender-Cursors
+ls
+nvim manifest.hl
+nvim
+pacman -S xdg-desktop-portal-hyprland
+sudo pacman -S xdg-desktop-portal-hyprland
+cd .config
+ls
+cd hypr
+ls
+nvim hyprland.conf
+cd .config/hypr
+ls
+nvim hyprland.conf
+cat $XDG_RUNTIME_DIR/hypr/$(ls -t $XDG_RUNTIME_DIR/hypr/ | head -n 2 | tail -n 1)/hyprland.log
+cat $XDG_RUNTIME_DIR/hypr/$(ls -t $XDG_RUNTIME_DIR/hypr/ | head -n 2 | tail -n 1)/hyprland.log
+;s
+ls
+cd dl
+ls
+cd catppuccin-hyprcursors
+ls
+cd dist
+ls
+ls -lah
+cd ..
+ls
+nvim build.sh
+cd dist
+ls
+rm -rf *
+ls
+cd ..
+ls
+./build
+./build.sh
+cd dist
+ls
+cd theme_Catppuccin-Mocha-Lavender-Cursors
+ls
+nvim manifest.hl
+cd ..
+ls
+cp -r theme_Catppuccin-Mocha-Lavender-Cursors ~/.local/share/icons/
+cd
+cd .local/share/icons
+ls -lah
+cd
+ls
+cd media
+ls
+cd
+cd dl
+ls
+cd catppuccin-hyprcursors
+ls
+cd dist
+ls
+ls -lah
+rm -rf ~/.local/share/icons/theme_Catppuccin-Mocha-Lavender-Cursors
+cp -r theme_Catppuccin-Mocha-Lavender-Cursors ~/.local/share/icons/
+cd
+sudo pacman -S nwg-look
+cd hypr
+ls
+nvim hyprland.conf
+cd .local/share/icons
+ls
+cd theme_Catppuccin-Mocha-Lavender-Cursors
+ls
+nvim manifest.hl
+dmesg
+sudo dmesg
+ls
+cd .config/hypr
+ls
+nvim hyprland.conf
+ls
+cd .config/hypr
+ls
+cd
+ls -a
+nvim .gtkrc-2.0
+cd .config/hypr
+ls
+nvim hyprland.conf
+sudo pacman -S uwsm
+cd
+ls -a
+nvim .zshrc
+rm .zshrc
+ls
+cd .config/zsh
+ls -a
+nvim .zprofile
+cd
+iwctl
+Hyprland
+Hyprland
+Hyprland
+Hyprland
+Hyprland
+Hyprland
+Hyprland
+Hyprland
+Hyprland
+exit
+cd .local/share
+ls
+ls
+cd icons
+ls
+rm -rf theme_Catppuccin-Mocha-Lavender-Cursors
+ls
+cd default
+ls
+nvim index.theme
+cd ..
+ls
+rm -rf default
+ls
+ls -a
+cd
+ls
+rm -rf .gtkrc-2.0
+ls
+cd .config
+ls
+rm -rf gtk-3.0
+ls
+rm -rf nwg-look
+ls
+light
+light -A 10
+light -h
+light -v 3 -A 10
+cd /sys/class/backlight/intel_backlight/
+ls
+cd
+sudo pacman -S libnewt
+sudo pacman -S whiptail
+whiptail
+Hyprland
+uwsm
+exit
+ls
+nvim .gtkrc-2.0
+cd .config/gtk-3.0
+ls
+nvim settings.ini
+ls
+cd hypr
+ls
+nvim hyprland.conf
+cd .local/share/icons
+ls
+cd default
+ls
+nvim index.theme
+ls
+yazi
+fzf
+ls
+grep -rnw . -e mauve
+trash-empty
+grep -rnw . -e mauve
+grep -rnw . -e mauve | grep config
+ls
+cd .config/
+ls
+cat gtk-3.0/settings.ini
+grep -rnw ~ -e catppuccin-mocha-mauve-cursors
+cd
+reboot
+ls
+sudo pacman -Rs catppuccin-cursors-mocha
+sudo pacman -S dbus-broker
+cd docs
+ls
+mkdir textbooks
+ls
+ls
+cd textbooks
+ls
+cd
+paru
+ls
+light
+sudo usermod -aG renny video
+sudo usermod -aG video renny
+waybar
+wayar
+waybar
+light -v 3 -A 10
+reboot
+sudo pacman -S ntfs-3g
+cd /etc/grub.d
+ls
+cd ..
+ls
+cd /etc/default
+ls
+sudo nvim grub
+cd
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+sudo nvim grub
+cd /etc/default
+sudo nvim grub
+sudo pacman -S os-prober
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+cd
+reboot
+sudo pacman -S ntp
+sudo systemctl enable ntpd --now
+date
+sudo su
+reboot
+sudo su
+sudo pacman -S ttf-bitstream-vera ttf-croscore ttf-dejavu gnu-free-fonts ttf-ibm-plex ttf-liberation 
+sudo pacman -S tex-gyre-fonts ttf-ubuntu-font-family
+sudo pacman -S ttf-opensans adobe-source-sans-fonts
+sudo pacman -S ttf-gentium-plus ttf-liberation
+sudo pacman -S ttf-linux-libertine
+sudo pacman -Rs ttf-linux-libertine
+sudo pacman -S libertinus-font
+paru
+sudo pacman -S inter-font
+sudo pacman -S ttf-dejavu gnu-freefont noto-fonts ttf-liberation ttf-opensans ttf-roboto inter-font fira-code ttf-hack ttf-jetbrains-mono ttf-mononoki ttf-inconsolata noto-fonts-cjk ttf-font-awesome ttf-material-design-icons ttf-symbola xorg-fonts\
+
+yazi
+cd media/pics/
+ls
+mkdir screenshots
+ls
+cd /etc/iwd
+ls
+ls
+iwctl
+cd /var/lib/iwd
+ls
+sudo /var/lib
+sudo su
+iwctl
+iwctl
+cd
+nvim
+sudo pacman -S tlp
+sudo systemctl enable tlp --now
+cd .config/hypr
+ls
+nvim hyprland.conf
+iwctl
+cd .config/hypr
+ls
+nvim hyprland.conf
+lspci | grep -E 'VGA|3D'
+ls -l /dev/dri/by-path
+ls /dev/dri/
+sudo pacman -S nvidia
+reboot
+nvim
+cd .config/hypr
+cd ../uwsm
+ls
+nvim env-hyprland
+ls -l /dev/dri/by-path
+lspci | grep -E 'VGA|3D'
+cd /dev/dri
+ls
+cd by-path
+ls
+ls
+cd .config/uwsm
+ls
+nvim env-hyprland
+cd /dev/dri
+ls
+cd
+exit
+ls
+cd .config/uwsm
+ls
+rm env-hyprland
+cd
+exit
+cd /dev/dri/by-path
+ls
+ls -l /dev/dri/by-path
+cd .config/hypr
+ls
+nvim hyprland.conf
+Hyprland
+cd .cache/hyprland
+ls
+nvim hyprlandCrashReport59421.txt
+ls
+ls
+ls
+cd
+cd .config/hypr
+ls
+nvim hyprland.conf
+ls -l /dev/dri/by-path
+nvim hyprland.conf
+cd
+Hyprland
+cd .cache/hyprland
+ls
+nvim hyprlandCrashReport67644.txt
+cd 
+cd .config/hypr
+ls
+nvim hyprland.conf
+Hyprland
+cd 
+cd .cache/hyprland
+cd
+cd .config/hypr
+ls
+nvim hyprland.conf
+ls -l /dev/dri/by-path
+cat /dev/dri/by-path/pci-0000:00:02.0-card
+ls
+nvim hyprland.conf
+cd
+sudo pacman -S nvidia-utils
+sudo nvim /etc/mkinitcpio.
+sudo nvim /etc/mkinitcpio.conf
+mkinitcpio -P
+sudo mkinitcpio -p
+sudo mkinitcpio -p linux
+cd /etc/modprobe.d
+ls
+sudo nvim nvidia-drm.conf
+nvim nvidia-drm.conf
+sudo nvim nvidia-drm.conf
+reboot
+btop
+sudo pacman -S nvidia-smi
+nvidia-smi
+v4l2-ctl
+v4l2-ctl --list-devices
+paru -S howdy
+paru -S howdy-bin
+paru -S howdy
+paru
+paru -S howdy
+paru -S howdy
+cd /etc/pam.d
+ls
+sudo nvim system-local-login
+ls
+sudo nvim system-auth
+ls
+sudo nvim system-login
+sudo nvim system-local-login
+sudo nvim /lib/security/howdy/config.ini
+sudo su
+v4l2-ctl --list-devices
+reboot
+cd /etc/pam.d
+ls
+sudo nvim /etc/pam.d/system-local-login
+reboot
+sudo nvim /lib/security/howdy/config.ini
+paru -S linux-enable-ir-emitter
+systemctl enable linux-enable-ir-emitter --now
+sudo linux-enable-ir-emitter configure
+sudo pacman -S libxcb
+sudo pacman -S libxcursor
+sudo linux-enable-ir-emitter configure
+sudo linux-enable-ir-emitter configure --no-gui
+sudo linux-enable-ir-emitter configure --no-gui
+reboot
+sudo nvim /lib/security/howdy/config.ini
+reboot
+sudo su
+sudo nvim /etc/pam.d/system-local-login
+cd
+iwctl
+rfkill
+rfkill unblock all
+rfkill
+paru
+nvim
+reboot
+iwctl
+paru -S rust
+sudo pacman -S go
+nvim
+cd .config/hypr
+ls
+nvim hyprland.conf
+nvim
+nvim
+nvim
+cd
+paru
+sudo pacman -S intel-media-driver
+sudo pacman -S vulkan-intel
+sudo pacman -S vulkan-mesa-layers
+cd /etc/modprobe.d
+ls
+sudo nvim i915.conf
+mkinitcpio -P
+sudo mkinitcpio -p linux
+cd 
+cd .config/hypr
+ls
+nvim hyprland.conf
+cd ../uwsm
+ls
+nvim env-hyprland
+ls
+cd .config/ywsm
+cd .config/uwsm
+ls
+rm env-hyprland
+ls
+nvim default-id
+cd
+exit
+ls /dev/dri
+ls
+cd .config/uwsm
+ls
+nvim env-hyprland
+ls -l /dev/dri/by-path
+ls -l /dev/dri/by-path
+cd .config/uwsm
+ls
+nvim env-hyprland
+sudo nvim .zshenv
+gcc --version
+ld --version
+ls
+mkdir src
+rm -rf go
+ls
+sudo pacman -S gmp
+sudo pacman -S libmpc
+sudo pacman -S mpfr
+sudo pacman -S libisl
+ls
+cd src
+ls
+git clone git://sourceware.org/git/binutils-gdb.git
+git clone git://gcc.gnu.org/git/gcc.git
+sudo pacman -S okular
+nvim
+nvim bruh
+btop
+nvim
+paru
+nvim
+cd src
+ls
+mkdir build-binutils
+cd build-binutils
+../binutils-gdb/configure --target=$TARGET --prefix="$PREFIX" --with-sysroot --disable-nls --disable-werror
+make
+ls
+make -j 8
+make install\
+
+cd ..
+ls
+cd
+ls
+cd opt
+ls
+cd cross
+ls
+cd i686-elf
+ls
+cd bin
+ls
+cd ..
+ls
+cd lib
+ls
+cd
+ls
+cd opt
+ls
+cd
+ls
+cd src
+ls
+cd binutils-gdb
+ls
+cd
+ls
+cd src
+ls
+pkill waybar
+waybar & disown
+nvim
+nvim idea
+nvim
+nvim hw-hints
+nvim
+nvim
+ls
+ls
+mkdir projects
+ls
+cd projects
+ls
+mkdir inf-canvas
+cd inf-canvas
+ls
+touch md
+rm md
+touch README.md
+ls
+ls
+mkdir cmd
+ls
+mkdir templates
+ls
+go get -tool github.com/a-h/templ/cmd/templ@latest
+ls
+ls
+ls -a
+ls -a
+rmdir cmd
+go mond init
+ls
+ls -a
+go mod init
+go mod init cmd
+ls
+ls -a
+nvim go.mod
+go get -tool github.com/a-h/templ/cmd/templ@latest
+ls
+ls -a
+ls -a
+cd templates
+ls
+nvim index.html
+nvim index.html
+cd ..
+ls
+npm install tailwindcss @tailwindcss/cli
+ls
+cd templates
+ls
+nvim main.css
+cd ..
+ls
+npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch
+cd ..
+ls
+rm -rf inf-canvas
+mkdir inf-canvas
+go mod init inf-canvas
+cd inf-canvas
+ls
+ls
+ls
+mkdir cmd
+mkdir internal
+mkdir ui
+ls
+ls -a
+cd cmd
+ls
+mkdir web
+cd web
+ls
+touch main.go
+cd ../..
+ls
+cd internal
+mkdir handlers
+mkdir models
+mkdir config
+cd ..
+ls
+cd gui
+ls
+cd ui
+ls
+ls
+mkdir css
+ls -a
+cd css
+ls
+touch input.css
+cd ..
+ls
+mkdir html
+cd html
+ls
+touch base.html
+ls
+touch index.html
+ls
+nvim index.html
+cd ../
+ls
+cd ..
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+ls
+ls
+cd ui
+ls
+cd css
+ls
+nvim input.css
+cd ..
+ls
+cd ..
+ls
+npx @tailwindcss/cli -i ./ui/css/input.css -o ./ui/css/output.css --watch
+ls
+rm -rf node_modules package-lock.json
+ls
+rm package.json
+ls
+ls -a
+yazi
+ls
+npm install tailwindcss @tailwindcss/cli
+npx @tailwindcss/cli -i ./ui/css/input.css -o ./ui/css/output.css --watch
+cd ui/css
+ls
+nvim output.css
+ls
+ls
+cd ../
+ls
+cd html
+ls
+nvim index.html
+paru
+sudo pacman -S qt6ct
+paru
+nvim
+nvim
+paru
+nvim
+paru -S darkly-bin
+qt6ct
+ls
+cd .config/qt6ct
+ls
+nvim 
+ls
+nvim qt6ct.conf
+rm qt6ct.conf
+ls
+qt6ct
+okular
+paru -S darkly-bin
+paru -S darkly
+ls
+cd qt
+ls
+cd colors
+ls
+nvim catppuccin-mocha-lavender.conf
+sudo pacman -S papirus-icon-theme
+cd
+cd hypr
+nvim hyprland.conf
+sudo pacman -S qt5ct
+ls
+cd .config/qt6ct
+ls
+cp colors/catppuccin-mocha-lavender.conf ../qt5ct/colors/
+ls
+cd
+cd book
+ls
+sudo pacman -S zathura
+sudo pacman -S zathura-pdf-mupdf
+ls
+zathura lin-alg.pdf
+zathura lin-alg.pdf
+ls
+cd
+cd hypr
+ls
+nvim hyprland.conf
+cd
+cd book
+ls
+zathura cp-handbook.pdf
+man zathura
+zathura cp-handbook.pdf
+zathura cp-handbook.pdf
+ls
+nvim robotics.pdf
+zathura robotics.pdf
+nvm
+nvim
+ls
+rm idea
+ls
+rm -rf go
+ls
+cd projects/'ls
+cd projects
+ls
+ls
+rm go.mod
+rm -rf inf-canvas
+ls
+mkdir c-lang
+cd c-lang
+ls
+sudo pacman -S easyeffects
+sudo pacman -S lsp-plugins-lv2
+cd
+cd dl
+ls
+nvim preset
+mv preset present.json
+paru
+cd boko
+cd book
+ls
+ls
+zathura the-c-programming-language.pdf
+easyeffects -h
+easyeffects -help-all
+easyeffects -w
+cd hypr
+ls
+nvim hyprland.conf
+easyeffects -w
+easyeffects -h
+easyeffects --hide-window
+easyeffects & disown
+easyeffects -w
+easyeffects
+ls
+cd .config/hyprland
+cd hypr
+ls
+nvim hyprland.conf
+easyeffects
+easyeffects -w
+cd .config/hyprland
+cd hypr
+nvim hyprland.conf
+cd c-lang
+ls
+paru
+cd book
+ls
+zathura the-c-programming-language.pdf
+zathura lin-alg.pdf
+ls
+cd
+cd docs/hw
+ls
+zathura rgh210002-Lin-Alg-HW8.pdf
+ls
+cd dl
+ls
+mv IMG_1275.jpg renny-hoang-portrait.jpg
+ls
+paru
+ls
+cd
+ls
+cd projects
+ls
+mkdir mindmap
+ls
+cd mindmap
+ls
+ls
+ls -a
+mkdir server
+ls
+mkdir client
+ls
+rmdir client
+ls
+ls
+npm create vite@latest client -- --template react-ts
+ls
+cd client
+npm install
+sudo pacman -S pavucontrol
+pavucontrol
+ls
+cd ..
+ls
+touch README.md
+ls
+git init
+ls
+git add .
+ls -a
+ls -a
+cd client
+ls
+cd ..
+ls
+cp client/.gitignore .
+ls
+nvim .gitignore
+ls
+cd client
+ls
+rm .gitignore
+rm README.md
+ls
+cd ..
+ls
+ls -a
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin git@github.com:rennyhoang/mindmap.git
+git push -u origin main
+ls
+ls
+cd server
+ls
+ls
+ls -a
+sudo pacman -S pyenv
+man pyenv
+pyenv install 3.12
+ls
+pyenv local 3.12
+ls
+pyenv commands
+pyenv exec python -m venv .venv
+ls
+source .venv/bin/activate
+pip install "fastapi[standard]"
+pip install --upgrade pip
+ls
+cd ..
+ls
+nvim .gitignore
+ls
+cd server
+ls
+pip install boto3
+pip install boto3[crt]
+paru -S aws-cli-v2
+ls
+cd .venv
+ls
+cd ..
+ls
+cd
+ls -l /dev/dri/by-path
+paru -S aws-cli-v2
+aws configure
+cd .config/uws
+cd ../hyprland
+cd ../hypr
+ls
+nvim hyprland.conf
+cd ../uwsm
+ls
+nvim env-hyprland
+nvidia-smi
+ls
+cd .config/uwsm
+ls
+nvim env-hyprland
+ls
+cd .config/uwsm
+ls
+nvim env-hyprland
+ls -l /dev/dri/by-path
+nvim env-hyprland
+ls
+ls /dev/dri
+ls /dev/dri/by-path
+ls
+nvim env-hyprland
+ls
+exit
+nvidia-smi
+ls
+cd .config
+ls
+cd uwsm
+ls
+nvim env-hyprland
+sudo dmesg
+sudo dmesg
+paru
+cd
+cd .cache
+ls
+cd hyprland
+ls
+glxinfo
+pacman -F glxinfo
+sudo pacman -Fy
+pacman -F glxinfo
+sudo pacman -S mesa-utils
+glxinfo
+cd
+glxinfo >> output
+nvim output
+glxinfo -B
+cd /etc/modprobe.d
+ls
+nvim nvidia-drm.conf
+cd
+pkill waybar
+waybar & disown
+systemctl stop tlp --now
+sudo systemctl enable nvidia-hibernate.service nvidia-resume.service nvidia-suspend.service
+reboot
+aws configure
+cd dl
+ls
+nvim renny
+nvim renny_accessKeys.csv
+cd
+ls
+cd mindmap
+ls
+git add .
+git commit -m "server"
+git push -u origin main
+ls
+cd
+cd books
+ls
+zathura the-c-programming-language.pdf
+zathura the-c-programming-language.pdf
+cd c-lang
+ls
+reboot
+ls
+cd book
+ls
+ls
+zathura robotics.pdf
+cd
+ls
+cd src
+ls
+cd
+ls
+cd opt
+ls
+cd cross
+ls
+cd i686-elf
+ls
+cd bin
+ls
+cd
+ls
+cd src
+ls
+mkdir build-gdb
+cd build-gdb
+cd ..
+ls
+ls ~/dl
+cp ~/dl/gdb-16.2.tar.gz .
+ls
+tar -xf gdb-16.2.tar.gz
+ls
+rm gdb-16.2
+ls
+cd build-gdb
+ls
+cd ..
+ls
+rm gdb-16.2.tar.gz
+ls
+cp ~/dl/gdb-16.2.tar.gz .
+ls
+tar -xf gdb-16.2.tar.gz
+rm gdb-16.2.tar.gz
+ls
+cd build-gdb
+ls
+../gdb-16.2/configure --target=$TARGET --prefix="$PREFIX" --disable-werror
+make all-gdb
+make all-gdb -j 8
+ls
+cd ..
+ls
+mkdir build-gcc
+cd build-gcc
+which -- $TARGET-as || echo $TARGET-as is not in the PATH
+../gcc/configure --target=$TARGET --prefix="$PREFIX" --disable-nls --enable-languages=c,c++ --without-headers --disable-hosted-libstdcxx
+make all-gcc -j8
+make all-target-libgcc -j8
+make all-target-libstdc++-v3 -j8
+ls
+cd ..
+ls
+cd ..
+ls
+rm -rf src
+ls
+rm -rf opt
+ls
+rm output
+ls
+ls
+iwctl
+reboot
+ping archlinux.org
+ping archlinux.org
+reboot
+paru
+sudo pacman -S plasma-meta
+ls
+exit
+sudo pacman -S sddm
+sudo systemctl enable sddm
+reboot
+ls
+paru
+cd scratchpad
+ls
+git clone --depth=1 https://github.com/catppuccin/kde catppuccin-kde && cd catppuccin-kde
+ls
+./install.sh
+sudo pacman -S wget
+./install.sh
+sudo pacman -S qpdfview
+paru -S qpdfview
+iwctl
+reboot

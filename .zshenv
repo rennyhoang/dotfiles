@@ -1,4 +1,5 @@
 ZDOTDIR=~/.config/zsh
+PREFIX="$HOME/opt/cross"
 GEM_HOME="$(gem env user_gemhome)"
 PATH="$PATH:$GEM_HOME/bin:$HOME/.config/emacs/bin:$HOME/.dotnet/tools:$HOME/.config/composer/vendor/bin":$GOROOT/bin:$GOPATH/bin:$(go env GOPATH)/bin
 EDITOR="nvim"
