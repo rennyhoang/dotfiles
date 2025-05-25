@@ -4,3 +4,4 @@
 .config/zsh/history
 
 .config/go/*
+.config/go
