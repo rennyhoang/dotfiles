@@ -1437,3 +1437,435 @@ sudo pacman -S qpdfview
 paru -S qpdfview
 iwctl
 reboot
+ls
+paru
+ls
+rm -rf .python_history .vimrc
+ls -a
+rm .mariadb_history
+ls -a
+rm -rf .ollama
+cd projects
+ls
+mkdir clang
+cd clang
+ls
+cd ../ray-tracer
+ls
+nvim vector.h
+mv vector.h vector3.h
+mv vector3.h vec3.h
+nvim vec3.h
+nvim vec3.h
+nvim
+ls
+nvim
+ls
+nvim vec3.h
+nvim
+cd nvim
+ls
+ls lua/plugins
+nvim lua/plugins/autopair.lua
+nvim init.lua
+ls
+cd lua
+ls
+cd plugins
+ls
+nvim auto
+nvim autopair.lua
+nvim init
+ls
+nvim sleuth.lua
+ls
+nvim autopair.lua
+nvim autotag.lua
+nvim autotag.lua
+nvim completion.lua
+nvim format.lua
+nvim indentline.lua
+nvim indentline.lua
+nvim indentline.lua
+nvim indentline.lua
+ls
+ls
+nvim lsp.lua
+nvim statusline.lua
+nvim telescope.lua
+nvim theme.lua
+nvim treesitter.lua
+ls
+cd ..
+ls
+cd ..
+ls
+nvim init.lua
+nvim init.lua
+cd lua/plugins
+ls
+nvim theme.lua
+nvim init
+nvim init.lua
+cd ../..
+nvim init.lua
+nvim init.lua
+nvim init.lua
+ls
+ls
+ls
+git add .
+git commit -m "nvim"
+git push -u origin main
+ls
+ls
+nvim init.lua
+cd
+cd dotfiles
+ls -a
+nvim .gitconfig
+touch .gitignore
+nvim .gitignore
+ls
+cd
+cd .config/nvim
+ls
+cd
+cd dotfiles
+nvim .gitignore
+cd
+cd .config/nvim
+ls
+cd ..
+ls
+cp -r nvim nvim-bak
+ls
+cd nvim
+ls
+git pull
+cd
+cd .config/nvim
+ls
+cd
+cd dotfiles
+ls
+nvim .gitignore
+nvim .gitignore
+cd
+cd dotfiles
+git pull
+cd
+nvim .zshenv
+nvim .zshenv
+cd dotfiles
+git pull
+ls
+git add .
+git commit -m "sync"
+cd
+cd .config
+ls
+rm -rf JetBrains
+rm -rf composer
+ls -a
+cd
+cd dotfiles
+git add .
+git commit -m "sync"
+git push -u origin main
+git pull
+ls
+cd .config/nvim/lazy-lock.json
+cd .config/nvim
+ls
+nvim lazy-lock.json
+git add lazy-lock.json
+cd ../zsh
+nvim .zshenv
+cd ../
+cd ..
+nvim .zshenv
+git add .zshenv
+ls
+git commit -m "fix conflicts\
+"
+ls
+git pull
+git add .
+git commit -m "sync"
+git push -u origin main
+ls
+cd
+cd .config/nvim
+ls
+cd lua
+ls
+cd plugins
+ls
+cd ../..
+ls
+nvim init.lua
+ls -a
+ls -a
+cd 
+cd dotfiles
+ls
+cd .config/nvim
+ls
+ls lua/plugins
+ls
+cd ../..
+man stow
+man -h
+stow -h
+stow --adopt .
+ls
+git add .
+git commit -m "sync"
+git push -u origin main
+git add .
+git commit -m "sync"
+git push -u origin main
+git status
+cd
+cd .config/go
+ls
+cd
+cd dotfiles
+nvim .gitignore
+nvim .gitignore
+git add .
+git commit -m "sync"
+git push -u origin main
+git status
+git status
+ls
+git pull
+ls
+nvim .gitconfig
+nvim .gitignore
+cd .config/go/telemetry/
+ls
+cd ..
+ls
+cd ..
+ls
+rm -rf go
+ls
+rm -rf nvim-bak
+ls
+cd ..
+ls
+git add .
+git commit -m "sync"
+git push -u origin main
+git pull
+ls
+cd .config/
+ls
+cd go
+ls
+cd ..
+ls
+rm -rf go
+ls
+ls
+rm -rf go
+ls
+cd go
+ls
+cd ..
+ls
+sudo rm -rf go
+ls
+cd go
+ls
+ls
+rm -rf telemetry
+ls
+sudo rm -rf telemetry
+ls
+cd telemetry
+ls
+cd ..
+cd 
+cd dotfiles/.config
+ls
+\rm -rf go
+ls
+sudo \rm -rf go
+ls
+cd go
+ls
+cd telemetry
+ls
+cd local
+ls
+rm *
+ls
+nvim go@go1.24.3-go1.24.3-linux-amd64-2025-05-25.v1.count
+ls
+\rm go@go1.24.3-go1.24.3-linux-amd64-2025-05-25.v1.count
+ls
+sudo \rm go@go1.24.3-go1.24.3-linux-amd64-2025-05-25.v1.count
+ls
+ls
+git pull
+git add .
+git commit -m "sync"
+git push -u origin main
+ls
+cd ../../..
+ls
+cd ..
+ls
+nvim .gitignore
+git status
+ls
+nvim .gitignore
+git add .
+git commit -m "sync"
+git push -u origin main
+nvim .gitignore
+git add .
+git commit -m "sync"
+git push -u origin main
+git status
+ls
+nvim .gitignore
+git add .
+git commit -m "sync"
+git push -u origin main
+git status
+nvim .gitignore
+git add .
+git commit -m "sync"
+git push -u origin main
+git status
+ls
+rm -rf .config/go
+cd config
+ls
+cd  go
+ls
+\rm -rf *
+ls
+cd telemetry
+ls
+cd local
+ls
+ls -lah
+cd
+go telemetry off && go telemetry clean
+go telemetry off
+cd .config/go
+ls
+ls
+rm -rf telemetry
+ls
+ls -a
+cd
+go telemetry clean
+paru
+go help telemetry
+go telemetry off
+go telemetry
+cd .config/go
+ls
+rm -rf telemetry
+ls
+sudo rm -rf telemetry
+ls
+cd telemetry
+ls
+cd local
+ls
+sudo rm -rf go@go1.24.3-go1.24.3-linux-amd64-2025-05-25.v1.count
+ls -a
+ls -lah
+cd
+go get golang.org/telemetry/cmd/gotelemetry
+go install golang.org/telemetry/cmd/gotelemetry
+go install golang.org/telemetry/cmd/gotelemetry@latest
+cd .config/go
+ls -lah
+sudo su
+ls
+cd ..
+ls
+cd go
+ls
+sudo su
+ls
+ls -a
+cd
+cd dotfiles
+ls
+git add .
+git commit -m "sync"
+git push -u origin main
+ls
+cd .config
+ls
+cd go
+ls
+cd ../..
+ls
+nvim .gitignore
+git pull
+git reset --hard origin/main
+ls
+cd .config
+ls
+cd ..
+cd .config
+ls
+cd go
+ls
+ls -lah
+cd ..
+ls
+cd 
+cd dotfiles
+ls
+cd
+cd dotfiles
+ls
+git fetch --all
+git reset --hard origin/main
+ls
+cd .config
+ls
+cd ..
+ls
+git reset --hard origin/main
+ls .config
+git reset --hard HEAD\
+git pull
+ls .config
+git clean
+git clean -f
+ls .config
+git reset --hard HEAD\
+git pull
+git clean
+git clean -f
+ls .config
+git clean -n -f -d
+cd
+nvim .zshenv
+cd .config/zsh
+nvim .zshrc
+cd 
+cd dotfiles
+ls
+cd
+paru
+cd /etc
+ls
+nvim pacman.conf
+sudo nvim pacman.conf
+paru
+cd
+sudo pacman -Sy
+nvim test.cpp
