@@ -8,3 +8,4 @@ LS_COLORS="$(vivid generate catppuccin-mocha)"
 PREFIX="$HOME/opt/cross"
 TARGET=i686-elf
 CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1
+export MANPAGER='nvim +Man!'
