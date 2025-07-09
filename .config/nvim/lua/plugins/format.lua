@@ -7,12 +7,13 @@ return {
         python = { "black" },
         javascript = { "prettier" },
         cpp = { "clang-format" },
+        go = { "gofumpt" },
       },
       format_on_save = {
         timeout_ms = 500,
         lsp_format = "fallback",
       },
     }
-  )
+    )
   end,
 }

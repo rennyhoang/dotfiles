@@ -4,7 +4,7 @@ return {
         opts = {}
     },
     {
-        "neovim/nvim-lspconfig"
+        "neovim/nvim-lspconfig",
     },
     {
         "mason-org/mason-lspconfig.nvim",
