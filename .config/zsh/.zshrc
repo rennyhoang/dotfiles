@@ -1,3 +1,4 @@
+eval "$(zellij setup --generate-auto-start zsh)"
 ### INSTANT PROMPT ###
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
@@ -20,10 +21,12 @@ autoload -Uz compinit
 compinit
 
 ### ALIASES ###
-alias ls='eza --icons=always --color=always -a'
+alias ls='eza --icons=always --color=always'
+alias ll='eza --icons=always --color=always -lah'
 alias rm='trash-put'
 alias df='duf'
 alias mariadb='sudo mariadb -u root'
+alias start-tailwind='npx @tailwindcss/cli -i ./static/css/input.css -o ./static/css/output.css --watch'
 
 #### PLUGINS ####
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
