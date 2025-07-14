@@ -1,1871 +1,1180 @@
-sudo pacman -S zsh-syntax-highlighting
-sudo pacman -S zsh-autosuggestions
-sudo pacman -S powerlevel10k
-sudo pacman -S zsh-powerlevel10k
-sudo pacman -S zsh-theme-powerlevel10k
-paru -S zsh-theme-powerlevel10k
-paru -S zsh-theme-powerlevel10k
-sudo pacman -S ttf-jetbrains-mono-nerd
-ls
-sudo pacman -S eza
-sudo pacman -S zoxide
-sudo pacman -S fzf
-sudo pacman -S gem
-sudo pacman -S ruby
-sudo pacman -S vivid
-cd .config/hyprland
-ls
-cd .config/hypr
-ls
-nvim hyprland.conf
-cd
-cd dotfiles
-ls
-cd .config
-ls
-cd hypr
-ls
-mv * ~/.config/hypr
-cd
-cd .config/hypr
-ls
-nvim hyprland.conf
-ls
-cd
-cd dotfiles/.config/hypr
-ls
-ls -a
-cd
-cd .config/hypr
-git pull
-cd
-cd dotfiles
-ls
-git pull
-ls
-cd .config/hypr
-ls
-ls -a
-nvim hyprland.conf
-sudo pacman -S fuzzel
-sudo pacman -S hyprpicker pavucontrol grim slurp
-sudo pacman -S hyprlock
-sudo pacman -S wl-copy
-wl-copy
-sudo pacman -S wl-clipboard
-sudo pacman -S btop
-paru -S catppuccin-cursors-mocha
-sudo pacman -S yazi
-cd .config/hypr
-ls
-nvim hyprland.conf
-sudo pacman -S waybar hyprsunset udiskie mako
-cd .config
-cd hypr
-ls
-cp hypridle.conf ~/dotfiles/.config/hypr/
-cp hyprlock.conf ~/dotfiles/.config/hypr/
-cp hyprpaper.conf ~/dotfiles/.config/hypr/
-cp mocha.conf ~/dotfiles/.config/hypr/
-cd
-cd dotfiles/.config/hypr
-ls
-cp hyprland.conf ~/.config/hypr/hyprland.conf
-cd
-cd .config/hyprland
-cd .config/hypr
-ls
-nvim hyprland.conf
-ls
-cd .config
-ls
-cd kitty
-ls
-cd ..
-ls
-ls
-cd
-cd Downloads
-ls
-  git clone https://github.com/sejjy/mechabar.git\
-  cd mechabar
-ls
-cd ..
-ls
-sudo pacman -S trash-cli
-ls
-rm -rf mechabar
-ls
-  git clone -b animated https://github.com/sejjy/mechabar.git\
-  cd mechabar
-./install.sh
-pavucontrol
-fc-list | grep Jetbrain
-fc-list | grep jetbrain
-fc-list | grep mono
-gc-list
-fc-list
-fc-list | grep JetBrains
-cd .config/mako
-ls
-nvim config
-notify-send bruh
-nvim config
-notify-send bruh
-nvim config
-pkill mako
-notify-send bruh
-notify-send bruh
-nvim
-cd
-ls -a
-nvim
-cd .config
-ls
-mkdir fontconfig
-cd fontconfig
-ls
-nvim fonts.conf
-mkdir media
-cd media
-mkdir pics
-cd pics
-mkdir wallpapers
-ls
-cd wallpapers
-ls
-cp ~/Downloads/mocha-swirl.png .
-ls
-ls
-cd .config/hypr
-ls
-nvim hyprland.conf
-nvim hyprpaper.conf
-cd .config/hyprpaper
-cd .config/hypr
-ls
-nvim hyprpaper.conf
-cd ~/media/pics/wallpapers
-ls
-hyprpaper
-sudo pacman -S hyprpaper
-nvim
-cd .config/waybar
-ls
-nvim config.jsonc
-pkill waybar
-waybar & disown
-cd waybar
-ls
-nvim config.jsonc
-pavucontrol
-sudo pacman -S sof-firmware
-reboot
-pkill waybar
-waybar
-cd .config/waybar
-ls
-nvim config.jsonc
-cd
-cd .config/waybar/script
-cd .config/waybar/scripts
-ls
-pavucontrol
-waybar & disown
-sudo tee /etc/systemd/system/yoga-16imh9-speakers.service <<EOF\
-[Unit]\
-Description=Turn on speakers using i2c configuration\
-After=suspend.target hibernate.target hybrid-sleep.target suspend-then-hibernate.target\
-\
-[Service]\
-User=root\
-Type=oneshot\
-ExecStart=/bin/sh -c "/usr/local/bin/2pa-byps.sh | logger"\
-\
-[Install]\
-WantedBy=multi-user.target sleep.target\
-Also=suspend.target hibernate.target hybrid-sleep.target suspend-then-hibernate.target\
-EOF
-cd /etc/systemd/system
-ls
-sudo pacman -Sy i2c-tools
-sudo tee /usr/local/bin/2pa-byps.sh <<'EOF'\
-#!/bin/bash\
-\
-export TERM=linux\
-# Some distros don't have i2c-dev module loaded by default, so we load it manually\
-\
-modprobe i2c-dev\
-# Function to find the correct I2C bus (third DesignWare adapter)\
-find_i2c_bus() {\
-    local adapter_description="Synopsys DesignWare I2C adapter"\
-    local dw_count=$(i2cdetect -l | grep -c "$adapter_description")\
-    if [ "$dw_count" -lt 3 ]; then\
-        echo "Error: Less than 3 DesignWare I2C adapters found." >&2\
-        return 1\
-    fi\
-    local bus_number=$(i2cdetect -l | grep "$adapter_description" | awk '{print $1}' | sed 's/i2c-//' | sed -n '3p')\
-    echo "$bus_number"\
-}\
-i2c_bus=$(find_i2c_bus)\
-if [ -z "$i2c_bus" ]; then\
-    echo "Error: Could not find the third DesignWare I2C bus for the audio IC." >&2\
-    exit 1\
-fi\
-echo "Using I2C bus: $i2c_bus"\
-i2c_addr=(0x3f 0x38)\
-\
-count=0\
-for value in "${i2c_addr[@]}"; do\
-    val=$((count % 2))\
-    i2cset -f -y "$i2c_bus" "$value" 0x00 0x00\
-    i2cset -f -y "$i2c_bus" "$value" 0x7f 0x00\
-    i2cset -f -y "$i2c_bus" "$value" 0x01 0x01\
-    i2cset -f -y "$i2c_bus" "$value" 0x0e 0xc4\
-    i2cset -f -y "$i2c_bus" "$value" 0x0f 0x40\
-    i2cset -f -y "$i2c_bus" "$value" 0x5c 0xd9\
-    i2cset -f -y "$i2c_bus" "$value" 0x60 0x10\
-    if [ $val -eq 0 ]; then\
-        i2cset -f -y "$i2c_bus" "$value" 0x0a 0x1e\
-    else\
-        i2cset -f -y "$i2c_bus" "$value" 0x0a 0x2e\
-    fi\
-    i2cset -f -y "$i2c_bus" "$value" 0x0d 0x01\
-    i2cset -f -y "$i2c_bus" "$value" 0x16 0x40\
-    i2cset -f -y "$i2c_bus" "$value" 0x00 0x01\
-    i2cset -f -y "$i2c_bus" "$value" 0x17 0xc8\
-    i2cset -f -y "$i2c_bus" "$value" 0x00 0x04\
-    i2cset -f -y "$i2c_bus" "$value" 0x30 0x00\
-    i2cset -f -y "$i2c_bus" "$value" 0x31 0x00\
-    i2cset -f -y "$i2c_bus" "$value" 0x32 0x00\
-    i2cset -f -y "$i2c_bus" "$value" 0x33 0x01\
-\
-    i2cset -f -y "$i2c_bus" "$value" 0x00 0x08\
-    i2cset -f -y "$i2c_bus" "$value" 0x18 0x00\
-    i2cset -f -y "$i2c_bus" "$value" 0x19 0x00\
-    i2cset -f -y "$i2c_bus" "$value" 0x1a 0x00\
-    i2cset -f -y "$i2c_bus" "$value" 0x1b 0x00\
-    i2cset -f -y "$i2c_bus" "$value" 0x28 0x40\
-    i2cset -f -y "$i2c_bus" "$value" 0x29 0x00\
-    i2cset -f -y "$i2c_bus" "$value" 0x2a 0x00\
-    i2cset -f -y "$i2c_bus" "$value" 0x2b 0x00\
-\
-    i2cset -f -y "$i2c_bus" "$value" 0x00 0x0a\
-    i2cset -f -y "$i2c_bus" "$value" 0x48 0x00\
-    i2cset -f -y "$i2c_bus" "$value" 0x49 0x00\
-    i2cset -f -y "$i2c_bus" "$value" 0x4a 0x00\
-    i2cset -f -y "$i2c_bus" "$value" 0x4b 0x00\
-    i2cset -f -y "$i2c_bus" "$value" 0x58 0x40\
-    i2cset -f -y "$i2c_bus" "$value" 0x59 0x00\
-    i2cset -f -y "$i2c_bus" "$value" 0x5a 0x00\
-    i2cset -f -y "$i2c_bus" "$value" 0x5b 0x00\
-\
-    i2cset -f -y "$i2c_bus" "$value" 0x00 0x00\
-    i2cset -f -y "$i2c_bus" "$value" 0x02 0x00\
-    count=$((count + 1))\
-done\
-EOF
-sudo chmod +x /usr/local/bin/2pa-byps.sh
-sudo systemctl daemon-reload\
-sudo systemctl enable --now yoga-16imh9-speakers.service
-sudo tee /etc/modprobe.d/disable-hda-power-save.conf <<EOF\
-blacklist snd_hda_scodec_tas2781_i2c\
-EOF\
-sudo rm -f /etc/udev/rules.d/99-i2c-power-control.rules
-sudo pacman -S ffmpeg
-Hyprland
-Hyprland
-iwctl
-reboot
-cd .config/hypr
-ls
-nvim hyprland.conf
-sudo pacman -S light
-paru -S light
-light
-light -U 10
-man light
-sudo pacman -S tldr
-man light
-light -S 60
-sudo pacman -S zip unzip
-sudo pacman -S npm
-ls
-cd .zen
-ls
-cd e28hs9ux.Default\ \(release\)/
-ls
-mkdir chrome
-cd chrome
-ls
-nvim userChrome.css
-nvim
-nvim userContent.css
-mv ~/Downloads/zen-logo-mocha.svg .
-ls
-ls
-cd
-ls
-nvim
-cd wallpapers
-ls
-nvim
-sudo pacman -S ttf-roboto
-ls
-mkdir scratchpad
-ls
-ls -a
-ls
-sudo pacman -S xdg-user-dirs
-ls
-xdg-user-dir 
-ls
-xdg-user-dir update
-ls
-xdg-user-dir -h
-man xdg-user-dir
-\man xdg-user-dir
-\man xdg-user-dir
-xdg-user-dirs-update
-ls
-cd .config
-ls
-nvim user-dirs.dirs
-c
-cd
-cd media
-ls
-mkdir vids
-mkdir music
-ls
-cd
-xdg-user-dirs-update
-mkdir dl
-mkdir docs
-cd .config
-nvim user-dirs.dirs
-cd
-xdg-user-dirs-update
-ls
-xdg-user-dirs-update
-ls -a
-rm -rf Music Pictures
-ls
-rm -rf Downloads Documents
-rm -rf Public Templates
-ls
-rm -rf Videos
-ls -a
-rm -rf Desktop
-ls
-cd .config/hypr
-ls
-nvim hyprland.conf
-ls
-nvim hyprlock.conf
-cd dl
-ls
-git clone https://github.com/EmKaCe/catppuccin-hyprcursors.git
-ls
-cd catppuccin-hyprcursors
-./build.sh
-ls
-nvim build
-ls
-nvim build.sh
-ls
-cd src
-ls
-yazi
-ls
-cd ..
-ls
-./build.sh
-ls
-cd dist
-ls
-cd theme_Catppuccin-Mocha-Lavender-Cursors
-ls
-cd
-cd .local/share
-ls
-mkdir icons
-cd
-ls
-paru -S catppuccin-cursors-mocha
-ls
-cp dl/catppuccin-hyprcursors/dist/theme_Catppuccin-Mocha-Lavender-Cursors/ ~/.local/share/icons/
-cp -r dl/catppuccin-hyprcursors/dist/theme_Catppuccin-Mocha-Lavender-Cursors/ ~/.local/share/icons/
-cd .local/share/icons
-ls
-ls
-cd theme_Catppuccin-Mocha-Lavender-Cursors
-ls
-nvim manifest.hl
-nvim
-pacman -S xdg-desktop-portal-hyprland
-sudo pacman -S xdg-desktop-portal-hyprland
-cd .config
-ls
-cd hypr
-ls
-nvim hyprland.conf
-cd .config/hypr
-ls
-nvim hyprland.conf
-cat $XDG_RUNTIME_DIR/hypr/$(ls -t $XDG_RUNTIME_DIR/hypr/ | head -n 2 | tail -n 1)/hyprland.log
-cat $XDG_RUNTIME_DIR/hypr/$(ls -t $XDG_RUNTIME_DIR/hypr/ | head -n 2 | tail -n 1)/hyprland.log
-;s
-ls
-cd dl
-ls
-cd catppuccin-hyprcursors
-ls
-cd dist
-ls
-ls -lah
-cd ..
-ls
-nvim build.sh
-cd dist
-ls
-rm -rf *
-ls
-cd ..
-ls
-./build
-./build.sh
-cd dist
-ls
-cd theme_Catppuccin-Mocha-Lavender-Cursors
-ls
-nvim manifest.hl
-cd ..
-ls
-cp -r theme_Catppuccin-Mocha-Lavender-Cursors ~/.local/share/icons/
-cd
-cd .local/share/icons
-ls -lah
-cd
-ls
-cd media
-ls
-cd
-cd dl
-ls
-cd catppuccin-hyprcursors
-ls
-cd dist
-ls
-ls -lah
-rm -rf ~/.local/share/icons/theme_Catppuccin-Mocha-Lavender-Cursors
-cp -r theme_Catppuccin-Mocha-Lavender-Cursors ~/.local/share/icons/
-cd
-sudo pacman -S nwg-look
-cd hypr
-ls
-nvim hyprland.conf
-cd .local/share/icons
-ls
-cd theme_Catppuccin-Mocha-Lavender-Cursors
-ls
-nvim manifest.hl
-dmesg
-sudo dmesg
-ls
-cd .config/hypr
-ls
-nvim hyprland.conf
-ls
-cd .config/hypr
-ls
-cd
-ls -a
-nvim .gtkrc-2.0
-cd .config/hypr
-ls
-nvim hyprland.conf
-sudo pacman -S uwsm
-cd
-ls -a
-nvim .zshrc
-rm .zshrc
-ls
 cd .config/zsh
-ls -a
-nvim .zprofile
-cd
-iwctl
-Hyprland
-Hyprland
-Hyprland
-Hyprland
-Hyprland
-Hyprland
-Hyprland
-Hyprland
-Hyprland
-exit
-cd .local/share
 ls
-ls
-cd icons
-ls
-rm -rf theme_Catppuccin-Mocha-Lavender-Cursors
-ls
-cd default
-ls
-nvim index.theme
-cd ..
-ls
-rm -rf default
-ls
-ls -a
-cd
-ls
-rm -rf .gtkrc-2.0
-ls
-cd .config
-ls
-rm -rf gtk-3.0
-ls
-rm -rf nwg-look
-ls
-light
-light -A 10
-light -h
-light -v 3 -A 10
-cd /sys/class/backlight/intel_backlight/
-ls
-cd
-sudo pacman -S libnewt
-sudo pacman -S whiptail
-whiptail
-Hyprland
-uwsm
-exit
-ls
-nvim .gtkrc-2.0
-cd .config/gtk-3.0
-ls
-nvim settings.ini
-ls
-cd hypr
-ls
-nvim hyprland.conf
-cd .local/share/icons
-ls
-cd default
-ls
-nvim index.theme
-ls
-yazi
-fzf
-ls
-grep -rnw . -e mauve
-trash-empty
-grep -rnw . -e mauve
-grep -rnw . -e mauve | grep config
-ls
-cd .config/
-ls
-cat gtk-3.0/settings.ini
-grep -rnw ~ -e catppuccin-mocha-mauve-cursors
-cd
-reboot
-ls
-sudo pacman -Rs catppuccin-cursors-mocha
-sudo pacman -S dbus-broker
-cd docs
-ls
-mkdir textbooks
-ls
-ls
-cd textbooks
-ls
+rm history
 cd
 paru
-ls
-light
-sudo usermod -aG renny video
-sudo usermod -aG video renny
-waybar
-wayar
-waybar
-light -v 3 -A 10
-reboot
-sudo pacman -S ntfs-3g
-cd /etc/grub.d
-ls
-cd ..
-ls
-cd /etc/default
-ls
-sudo nvim grub
-cd
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-sudo nvim grub
-cd /etc/default
-sudo nvim grub
-sudo pacman -S os-prober
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-cd
-reboot
-sudo pacman -S ntp
-sudo systemctl enable ntpd --now
-date
-sudo su
-reboot
-sudo su
-sudo pacman -S ttf-bitstream-vera ttf-croscore ttf-dejavu gnu-free-fonts ttf-ibm-plex ttf-liberation 
-sudo pacman -S tex-gyre-fonts ttf-ubuntu-font-family
-sudo pacman -S ttf-opensans adobe-source-sans-fonts
-sudo pacman -S ttf-gentium-plus ttf-liberation
-sudo pacman -S ttf-linux-libertine
-sudo pacman -Rs ttf-linux-libertine
-sudo pacman -S libertinus-font
 paru
-sudo pacman -S inter-font
-sudo pacman -S ttf-dejavu gnu-freefont noto-fonts ttf-liberation ttf-opensans ttf-roboto inter-font fira-code ttf-hack ttf-jetbrains-mono ttf-mononoki ttf-inconsolata noto-fonts-cjk ttf-font-awesome ttf-material-design-icons ttf-symbola xorg-fonts\
-
-yazi
-cd media/pics/
+cd .config/nvim
 ls
-mkdir screenshots
+git pull
 ls
-cd /etc/iwd
+cd lua
 ls
+cd plugins
 ls
-iwctl
-cd /var/lib/iwd
-ls
-sudo /var/lib
-sudo su
-iwctl
-iwctl
-cd
-nvim
-sudo pacman -S tlp
-sudo systemctl enable tlp --now
-cd .config/hypr
-ls
-nvim hyprland.conf
-iwctl
-cd .config/hypr
-ls
-nvim hyprland.conf
-lspci | grep -E 'VGA|3D'
-ls -l /dev/dri/by-path
-ls /dev/dri/
-sudo pacman -S nvidia
-reboot
-nvim
-cd .config/hypr
-cd ../uwsm
-ls
-nvim env-hyprland
-ls -l /dev/dri/by-path
-lspci | grep -E 'VGA|3D'
-cd /dev/dri
-ls
-cd by-path
-ls
-ls
-cd .config/uwsm
-ls
-nvim env-hyprland
-cd /dev/dri
-ls
-cd
-exit
-ls
-cd .config/uwsm
-ls
-rm env-hyprland
-cd
-exit
-cd /dev/dri/by-path
-ls
-ls -l /dev/dri/by-path
-cd .config/hypr
-ls
-nvim hyprland.conf
-Hyprland
-cd .cache/hyprland
-ls
-nvim hyprlandCrashReport59421.txt
-ls
-ls
-ls
-cd
-cd .config/hypr
-ls
-nvim hyprland.conf
-ls -l /dev/dri/by-path
-nvim hyprland.conf
-cd
-Hyprland
-cd .cache/hyprland
-ls
-nvim hyprlandCrashReport67644.txt
-cd 
-cd .config/hypr
-ls
-nvim hyprland.conf
-Hyprland
-cd 
-cd .cache/hyprland
-cd
-cd .config/hypr
-ls
-nvim hyprland.conf
-ls -l /dev/dri/by-path
-cat /dev/dri/by-path/pci-0000:00:02.0-card
-ls
-nvim hyprland.conf
-cd
-sudo pacman -S nvidia-utils
-sudo nvim /etc/mkinitcpio.
-sudo nvim /etc/mkinitcpio.conf
-mkinitcpio -P
-sudo mkinitcpio -p
-sudo mkinitcpio -p linux
-cd /etc/modprobe.d
-ls
-sudo nvim nvidia-drm.conf
-nvim nvidia-drm.conf
-sudo nvim nvidia-drm.conf
-reboot
-btop
-sudo pacman -S nvidia-smi
-nvidia-smi
-v4l2-ctl
-v4l2-ctl --list-devices
-paru -S howdy
-paru -S howdy-bin
-paru -S howdy
-paru
-paru -S howdy
-paru -S howdy
-cd /etc/pam.d
-ls
-sudo nvim system-local-login
-ls
-sudo nvim system-auth
-ls
-sudo nvim system-login
-sudo nvim system-local-login
-sudo nvim /lib/security/howdy/config.ini
-sudo su
-v4l2-ctl --list-devices
-reboot
-cd /etc/pam.d
-ls
-sudo nvim /etc/pam.d/system-local-login
-reboot
-sudo nvim /lib/security/howdy/config.ini
-paru -S linux-enable-ir-emitter
-systemctl enable linux-enable-ir-emitter --now
-sudo linux-enable-ir-emitter configure
-sudo pacman -S libxcb
-sudo pacman -S libxcursor
-sudo linux-enable-ir-emitter configure
-sudo linux-enable-ir-emitter configure --no-gui
-sudo linux-enable-ir-emitter configure --no-gui
-reboot
-sudo nvim /lib/security/howdy/config.ini
-reboot
-sudo su
-sudo nvim /etc/pam.d/system-local-login
-cd
-iwctl
-rfkill
-rfkill unblock all
-rfkill
-paru
-nvim
-reboot
-iwctl
-paru -S rust
-sudo pacman -S go
-nvim
-cd .config/hypr
-ls
-nvim hyprland.conf
-nvim
-nvim
-nvim
-cd
-paru
-sudo pacman -S intel-media-driver
-sudo pacman -S vulkan-intel
-sudo pacman -S vulkan-mesa-layers
-cd /etc/modprobe.d
-ls
-sudo nvim i915.conf
-mkinitcpio -P
-sudo mkinitcpio -p linux
-cd 
-cd .config/hypr
-ls
-nvim hyprland.conf
-cd ../uwsm
-ls
-nvim env-hyprland
-ls
-cd .config/ywsm
-cd .config/uwsm
-ls
-rm env-hyprland
-ls
-nvim default-id
-cd
-exit
-ls /dev/dri
-ls
-cd .config/uwsm
-ls
-nvim env-hyprland
-ls -l /dev/dri/by-path
-ls -l /dev/dri/by-path
-cd .config/uwsm
-ls
-nvim env-hyprland
-sudo nvim .zshenv
-gcc --version
-ld --version
-ls
-mkdir src
-rm -rf go
-ls
-sudo pacman -S gmp
-sudo pacman -S libmpc
-sudo pacman -S mpfr
-sudo pacman -S libisl
-ls
-cd src
-ls
-git clone git://sourceware.org/git/binutils-gdb.git
-git clone git://gcc.gnu.org/git/gcc.git
-sudo pacman -S okular
-nvim
-nvim bruh
-btop
-nvim
-paru
-nvim
-cd src
-ls
-mkdir build-binutils
-cd build-binutils
-../binutils-gdb/configure --target=$TARGET --prefix="$PREFIX" --with-sysroot --disable-nls --disable-werror
-make
-ls
-make -j 8
-make install\
-
-cd ..
-ls
-cd
-ls
-cd opt
-ls
-cd cross
-ls
-cd i686-elf
-ls
-cd bin
-ls
-cd ..
-ls
-cd lib
-ls
-cd
-ls
-cd opt
-ls
-cd
-ls
-cd src
-ls
-cd binutils-gdb
-ls
-cd
-ls
-cd src
-ls
-pkill waybar
-waybar & disown
-nvim
-nvim idea
-nvim
-nvim hw-hints
-nvim
-nvim
-ls
-ls
-mkdir projects
-ls
-cd projects
-ls
-mkdir inf-canvas
-cd inf-canvas
-ls
-touch md
-rm md
-touch README.md
-ls
-ls
-mkdir cmd
-ls
-mkdir templates
-ls
-go get -tool github.com/a-h/templ/cmd/templ@latest
-ls
-ls
-ls -a
-ls -a
-rmdir cmd
-go mond init
-ls
-ls -a
-go mod init
-go mod init cmd
-ls
-ls -a
-nvim go.mod
-go get -tool github.com/a-h/templ/cmd/templ@latest
-ls
-ls -a
-ls -a
-cd templates
-ls
-nvim index.html
-nvim index.html
-cd ..
-ls
-npm install tailwindcss @tailwindcss/cli
-ls
-cd templates
-ls
-nvim main.css
-cd ..
-ls
-npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch
-cd ..
-ls
-rm -rf inf-canvas
-mkdir inf-canvas
-go mod init inf-canvas
-cd inf-canvas
-ls
-ls
-ls
-mkdir cmd
-mkdir internal
-mkdir ui
-ls
-ls -a
-cd cmd
-ls
-mkdir web
-cd web
-ls
-touch main.go
 cd ../..
 ls
-cd internal
-mkdir handlers
-mkdir models
-mkdir config
-cd ..
-ls
-cd gui
-ls
-cd ui
-ls
-ls
-mkdir css
-ls -a
-cd css
-ls
-touch input.css
-cd ..
-ls
-mkdir html
-cd html
-ls
-touch base.html
-ls
-touch index.html
-ls
-nvim index.html
-cd ../
-ls
-cd ..
-npm install -D tailwindcss postcss autoprefixer
-npx tailwindcss init -p
-ls
-ls
-cd ui
-ls
-cd css
-ls
-nvim input.css
-cd ..
-ls
-cd ..
-ls
-npx @tailwindcss/cli -i ./ui/css/input.css -o ./ui/css/output.css --watch
-ls
-rm -rf node_modules package-lock.json
-ls
-rm package.json
-ls
-ls -a
-yazi
-ls
-npm install tailwindcss @tailwindcss/cli
-npx @tailwindcss/cli -i ./ui/css/input.css -o ./ui/css/output.css --watch
-cd ui/css
-ls
-nvim output.css
-ls
-ls
-cd ../
-ls
-cd html
-ls
-nvim index.html
-paru
-sudo pacman -S qt6ct
-paru
 nvim
 nvim
-paru
-nvim
-paru -S darkly-bin
-qt6ct
-ls
-cd .config/qt6ct
-ls
-nvim 
-ls
-nvim qt6ct.conf
-rm qt6ct.conf
-ls
-qt6ct
-okular
-paru -S darkly-bin
-paru -S darkly
-ls
-cd qt
-ls
-cd colors
-ls
-nvim catppuccin-mocha-lavender.conf
-sudo pacman -S papirus-icon-theme
-cd
-cd hypr
-nvim hyprland.conf
-sudo pacman -S qt5ct
-ls
-cd .config/qt6ct
-ls
-cp colors/catppuccin-mocha-lavender.conf ../qt5ct/colors/
 ls
 cd
-cd book
-ls
-sudo pacman -S zathura
-sudo pacman -S zathura-pdf-mupdf
-ls
-zathura lin-alg.pdf
-zathura lin-alg.pdf
-ls
-cd
-cd hypr
-ls
-nvim hyprland.conf
-cd
-cd book
-ls
-zathura cp-handbook.pdf
-man zathura
-zathura cp-handbook.pdf
-zathura cp-handbook.pdf
-ls
-nvim robotics.pdf
-zathura robotics.pdf
-nvm
-nvim
-ls
-rm idea
-ls
-rm -rf go
-ls
-cd projects/'ls
-cd projects
-ls
-ls
-rm go.mod
-rm -rf inf-canvas
-ls
-mkdir c-lang
-cd c-lang
-ls
-sudo pacman -S easyeffects
-sudo pacman -S lsp-plugins-lv2
-cd
-cd dl
-ls
-nvim preset
-mv preset present.json
-paru
-cd boko
-cd book
-ls
-ls
-zathura the-c-programming-language.pdf
-easyeffects -h
-easyeffects -help-all
-easyeffects -w
-cd hypr
-ls
-nvim hyprland.conf
-easyeffects -w
-easyeffects -h
-easyeffects --hide-window
-easyeffects & disown
-easyeffects -w
-easyeffects
-ls
-cd .config/hyprland
-cd hypr
-ls
-nvim hyprland.conf
-easyeffects
-easyeffects -w
-cd .config/hyprland
-cd hypr
-nvim hyprland.conf
-cd c-lang
-ls
-paru
-cd book
-ls
-zathura the-c-programming-language.pdf
-zathura lin-alg.pdf
-ls
-cd
-cd docs/hw
-ls
-zathura rgh210002-Lin-Alg-HW8.pdf
-ls
-cd dl
-ls
-mv IMG_1275.jpg renny-hoang-portrait.jpg
-ls
-paru
-ls
-cd
-ls
-cd projects
-ls
-mkdir mindmap
-ls
-cd mindmap
-ls
-ls
-ls -a
-mkdir server
-ls
-mkdir client
-ls
-rmdir client
-ls
-ls
-npm create vite@latest client -- --template react-ts
-ls
-cd client
-npm install
-sudo pacman -S pavucontrol
-pavucontrol
-ls
-cd ..
-ls
-touch README.md
-ls
-git init
-ls
-git add .
-ls -a
-ls -a
-cd client
-ls
-cd ..
-ls
-cp client/.gitignore .
-ls
+git status
+cd dotfiles
+git status
 nvim .gitignore
+cd .config/nvim
 ls
-cd client
-ls
-rm .gitignore
-rm README.md
+cd ../.
 ls
 cd ..
 ls
-ls -a
-git add .
-git commit -m "first commit"
-git branch -M main
-git remote add origin git@github.com:rennyhoang/mindmap.git
+git add .zshenv
+git commit -m "zshenv"
 git push -u origin main
+git status
+git rm --cached .config/nvim/lazy-lock.json
+git status
+git add .
+git commit -m "lazylock"
+git push -u origin main
+cd
+man ma
+man man
+cd .config/zsh
 ls
+nvim .zshrc
 ls
-cd server
-ls
-ls
-ls -a
-sudo pacman -S pyenv
-man pyenv
-pyenv install 3.12
-ls
-pyenv local 3.12
-ls
-pyenv commands
-pyenv exec python -m venv .venv
-ls
-source .venv/bin/activate
-pip install "fastapi[standard]"
-pip install --upgrade pip
-ls
-cd ..
-ls
-nvim .gitignore
-ls
-cd server
-ls
-pip install boto3
-pip install boto3[crt]
-paru -S aws-cli-v2
-ls
-cd .venv
-ls
-cd ..
 ls
 cd
-ls -l /dev/dri/by-path
-paru -S aws-cli-v2
-aws configure
-cd .config/uws
-cd ../hyprland
-cd ../hypr
+cd dotfiles
 ls
-nvim hyprland.conf
-cd ../uwsm
-ls
-nvim env-hyprland
-nvidia-smi
-ls
-cd .config/uwsm
-ls
-nvim env-hyprland
-ls
-cd .config/uwsm
-ls
-nvim env-hyprland
-ls -l /dev/dri/by-path
-nvim env-hyprland
-ls
-ls /dev/dri
-ls /dev/dri/by-path
-ls
-nvim env-hyprland
-ls
+git status
+git add .
+git commit -m "zshrc"
+git push -u origin main
+man man
+cd
+cd .config/zsh
+source .zshrc
+man man
+nvim .zshrc
+cd
 exit
-nvidia-smi
-ls
+man man
+man git
+man gittutorial
+man git-tag
+git config --global rerere.enabled
+git config --global rerere.enabled
+cd
 cd .config
-ls
-cd uwsm
-ls
-nvim env-hyprland
-sudo dmesg
-sudo dmesg
-paru
+git config
+man git-config
+git config get
+man git-config
+git config eit
+git config edit
 cd
-cd .cache
+man git-config
 ls
-cd hyprland
+nvim .gitconfig
+ git config --global rerere.enabled true
+nvim .gitconfig
+find
+trash
+man trash
+trash _h
+trash -h
+trash-empty
+trash-empty
+cd .local/share/Trash/files
 ls
-glxinfo
-pacman -F glxinfo
-sudo pacman -Fy
-pacman -F glxinfo
-sudo pacman -S mesa-utils
-glxinfo
+sudo rm -rf go
+ls
 cd
-glxinfo >> output
-nvim output
-glxinfo -B
-cd /etc/modprobe.d
+trash-empty
 ls
-nvim nvidia-drm.conf
-cd
-pkill waybar
-waybar & disown
-systemctl stop tlp --now
-sudo systemctl enable nvidia-hibernate.service nvidia-resume.service nvidia-suspend.service
-reboot
-aws configure
-cd dl
-ls
-nvim renny
-nvim renny_accessKeys.csv
-cd
+cd projects
 ls
 cd mindmap
+git log --graph
+cd
+cd projects/mindmap
+cd .git
 ls
-git add .
-git commit -m "server"
-git push -u origin main
+cd info
+ls
+cd ..
+ls
+cd objects
+ls
+cd 00
+ls
+ls
+cd ../
 ls
 cd
-cd books
+cd projects/mindmap
 ls
-zathura the-c-programming-language.pdf
-zathura the-c-programming-language.pdf
-cd c-lang
+cd .git
 ls
-reboot
+cd refs
 ls
-cd book
+cd heads
 ls
+cd ..
 ls
-zathura robotics.pdf
+cd remotes
+ls
+cd ../..
+ls
+cd logs
+ls
+cd refs
+ls
+cd heads
+ls
+cd ../..
+ls
+cd ..
+ls
+nvim index
+ls
+cd objects
+ls
+cd ../
+ls
+grep 287e04a0beb87fa986b534c7cfe83c92c8e410b7
+find 287e04a0beb87fa986b534c7cfe83c92c8e410b7
+ls
+cd objects
+ls
+cd 28
+ls
+yazi
+git log --graph
+git cat-file -p 287e04a0beb87fa986b534c7cfe83c92c8e410b7
+git cat-file -p 08041803027642c273649876213cd3dacb9185e7
+git cat-file -p kjv
+git cat-file -p 3135b6732542647286f360c2e785b19e90f788ba
+git cat-file -p  8b0f57b91aeb45c54467e29f983a0893dc83c4d9
+git log
+cdgit config --global rerere.enabled 
 cd
+git config --list
+man malloc
+sudo pacman -S mandb
+sudo pacman -S man-db
+sudo pacman -S man-pages
+man malloc
+nvim .zshenv
+source .zshenv
+man malloc
 ls
-cd src
-ls
+nvim .zshenv
+cd .config/zsh
+nvim .zshrc
 cd
-ls
-cd opt
-ls
-cd cross
-ls
-cd i686-elf
-ls
-cd bin
-ls
-cd
-ls
-cd src
-ls
-mkdir build-gdb
-cd build-gdb
-cd ..
-ls
-ls ~/dl
-cp ~/dl/gdb-16.2.tar.gz .
-ls
-tar -xf gdb-16.2.tar.gz
-ls
-rm gdb-16.2
-ls
-cd build-gdb
-ls
-cd ..
-ls
-rm gdb-16.2.tar.gz
-ls
-cp ~/dl/gdb-16.2.tar.gz .
-ls
-tar -xf gdb-16.2.tar.gz
-rm gdb-16.2.tar.gz
-ls
-cd build-gdb
-ls
-../gdb-16.2/configure --target=$TARGET --prefix="$PREFIX" --disable-werror
-make all-gdb
-make all-gdb -j 8
-ls
-cd ..
-ls
-mkdir build-gcc
-cd build-gcc
-which -- $TARGET-as || echo $TARGET-as is not in the PATH
-../gcc/configure --target=$TARGET --prefix="$PREFIX" --disable-nls --enable-languages=c,c++ --without-headers --disable-hosted-libstdcxx
-make all-gcc -j8
-make all-target-libgcc -j8
-make all-target-libstdc++-v3 -j8
-ls
-cd ..
-ls
-cd ..
-ls
-rm -rf src
-ls
-rm -rf opt
-ls
-rm output
-ls
-ls
-iwctl
-reboot
-ping archlinux.org
-ping archlinux.org
-reboot
+source .zshenv
+echo $MANPAGER
+man malloc
+nvim .zshenv
+source .shenv
+source .zshenv
+man malloc
+man malloc
+nvim
 paru
-sudo pacman -S plasma-meta
-ls
-exit
-sudo pacman -S sddm
-sudo systemctl enable sddm
-reboot
-ls
-paru
-cd scratchpad
-ls
-git clone --depth=1 https://github.com/catppuccin/kde catppuccin-kde && cd catppuccin-kde
-ls
-./install.sh
-sudo pacman -S wget
-./install.sh
-sudo pacman -S qpdfview
-paru -S qpdfview
-iwctl
-reboot
-ls
-paru
-ls
-rm -rf .python_history .vimrc
-ls -a
-rm .mariadb_history
-ls -a
-rm -rf .ollama
+man perror
+nvim
+man fopen
+man open
 cd projects
 ls
 mkdir clang
 cd clang
-ls
-cd ../ray-tracer
-ls
-nvim vector.h
-mv vector.h vector3.h
-mv vector3.h vec3.h
-nvim vec3.h
-nvim vec3.h
-nvim
-ls
-nvim
-ls
-nvim vec3.h
-nvim
+nvim files.c
+cd
 cd nvim
 ls
-ls lua/plugins
-nvim lua/plugins/autopair.lua
+git status
+nvim lua/plugins/trouble.lua
+ls
+nvim
+cd
+cd clang
+ls
+nvim files.c
+nvim files.c
+nvim fiels.c
+nvim files.c
+cd nvim
+ls
 nvim init.lua
+sudo pacman -S ripgrep
+nvim init.lua
+nvim lua/plugins/lazydev.lua
+nvim init.lua
+ls
+nvim init.lua
+cd clang
+ls
+nvim files.c
+cd
+cd .config/zsh
+nvim .zshrc
+nvim .zshrc
+conda info -e
+cd
+cd clang
+ls
+nvim 	
+ls
+nvim files.c
+cd nvim
+ls
+cd lua
+ls
+mkdir config
+ls
+cd ..
+ls
+cd lua/config
+ls
+nvim lazy.lua
+cd ../..
+ls
+nvim init.lua
+nvim init.lua
+ls
+cd lau
+ls
+cd lua
+cd config
+ls
+nvim options.lua
+ls
+cd ../..
+ls
+nvim init.lua
+nvim init.lua
+nvim init.lua
+cd lua/config
+ls
+nvim autocmd.lua
+nvim keymaps.lua
+cd ../..
+ls
+nvim init.lua
+nvim init.lua
+ls
+cd lua
+ls
+cd config
+ls
+nvim statusline.lua
+ls
+cd ..
+ls
+cd ..
+nvim init.lua
+nvim init.lua
+ls
+cd lua/config
+nvim init.lua
+ls
+nvim statusline.lua
+nvim statusline.lua
+cd ../..
+ls
+nvim init.lua
+vim init.lua
+nvim init.lua
+ls
+nvim lua/config/statusline.lua
+ls
+cat lua/plugins/statusline.lua
+nvim lua/plugins/statusline.lua
+nvim statu
+nvim lua/plugins/statusline.lua
+nvim lua/plugins/statusline.lua
+nvim lua/plugins/statusline.lua
+nvim lua/plugins/statusline.lua
+nvim lua/plugins/statusline.lua
+ls
+nvim init.lua
+nvim init.lua
+cd
+cd .config/nvim
+ls
+rm lua/plugins/lazydev.lua
+nvim init.lua
+git status
+cd
+cd dotfiles
+git add .
+git status
+git commit -m "sync"
+git push -u origin mianh
+git push -u origin main
+ls
+cd
+ls
+rm .viminfo
+ls
+cd .nv
+ls
+cd
+ls
+rm -rf .nv
+ls
+cd projects/clang
+ls
+nvim files
+ls
+nvim files.c
+ls
+cd 
+cd nvim
+ls
+nvim lua/plugins/diagnostics.lua
+ls
+nvim
 ls
 cd lua
 ls
 cd plugins
 ls
-nvim auto
-nvim autopair.lua
-nvim init
+nano completion.lua
 ls
-nvim sleuth.lua
+rm trouble.lua
 ls
-nvim autopair.lua
-nvim autotag.lua
-nvim autotag.lua
-nvim completion.lua
-nvim format.lua
-nvim indentline.lua
-nvim indentline.lua
-nvim indentline.lua
-nvim indentline.lua
+nvim diagnostics.lua
+nvim diagnostics.lua
+nvim diagnostics.lua
 ls
-ls
-nvim lsp.lua
-nvim statusline.lua
-nvim telescope.lua
-nvim theme.lua
-nvim treesitter.lua
-ls
-cd ..
-ls
-cd ..
+cd ../..
 ls
 nvim init.lua
-nvim init.lua
+nvim lua/config/lazy.lua
+cd clang
+ls
+nvim files.c
+cd nvim
+ls
 cd lua/plugins
 ls
-nvim theme.lua
-nvim init
-nvim init.lua
-cd ../..
-nvim init.lua
-nvim init.lua
-nvim init.lua
+nvim diagnostics.lua
+nvim diagnostics.lua
+cd clang
+nvim diagnostics.lua
 ls
-ls
-ls
-git add .
-git commit -m "nvim"
-git push -u origin main
-ls
-ls
-nvim init.lua
-cd
-cd dotfiles
-ls -a
-nvim .gitconfig
-touch .gitignore
-nvim .gitignore
+nvim files.c
+nvim files.c
 ls
 cd
-cd .config/nvim
+cd mindmap
 ls
+cd client
+ls
+nvim src/App.tsx
+ls
+cd src
+ls
+cd components
+ls
+nvim record-button.tsx
+ls
+nvim session-context.tsx
 cd
-cd dotfiles
-nvim .gitignore
-cd
-cd .config/nvim
-ls
-cd ..
-ls
-cp -r nvim nvim-bak
-ls
 cd nvim
 ls
-git pull
-cd
-cd .config/nvim
+cd lua/pluginhs
+cd lua/plugins
 ls
-cd
-cd dotfiles
+nvim diagnostics.lua
+nvim diagnostics.lua
+d clang
+cd clang
 ls
-nvim .gitignore
-nvim .gitignore
-cd
-cd dotfiles
-git pull
-cd
-nvim .zshenv
-nvim .zshenv
-cd dotfiles
-git pull
+nvim files.c
+cd nvim
 ls
-git add .
-git commit -m "sync"
-cd
-cd .config
+cd config
 ls
-rm -rf JetBrains
-rm -rf composer
-ls -a
-cd
-cd dotfiles
-git add .
-git commit -m "sync"
-git push -u origin main
-git pull
+nvim options.lua
+nvim options.lua
 ls
-cd .config/nvim/lazy-lock.json
-cd .config/nvim
+cd ../plugins
+nvim diagnostics.lua
+nvim ../config/options.lua
 ls
-nvim lazy-lock.json
-git add lazy-lock.json
-cd ../zsh
-nvim .zshenv
-cd ../
-cd ..
-nvim .zshenv
-git add .zshenv
+nvim lsp.lua
+nvim lsp.lua
+nvim lsp.lua
+cd ../..
 ls
-git commit -m "fix conflicts\
-"
-ls
-git pull
-git add .
-git commit -m "sync"
-git push -u origin main
-ls
-cd
-cd .config/nvim
+nvim init.lua
 ls
 cd lua
 ls
+cd config
+ls
+nvim lazy.lua
+ls
+cd ../
+ls
 cd plugins
 ls
-cd ../..
+nvim lsp.lua
 ls
+cd ../config
+ls
+nvim options.lua
+nvim options.lua
+nvim options.lua
+ls
+nvim diagnostics.lua
+nvim diagnostics.lua
+cd ../
+cd ../
 nvim init.lua
-ls -a
-ls -a
-cd 
-cd dotfiles
+nvim init.lua
+cd lua/config
 ls
-cd .config/nvim
-ls
-ls lua/plugins
-ls
-cd ../..
-man stow
-man -h
-stow -h
-stow --adopt .
-ls
-git add .
-git commit -m "sync"
-git push -u origin main
-git add .
-git commit -m "sync"
-git push -u origin main
-git status
+nvim diagnostics.lua
+nvim diagnostics.lua
+nvim diagnostics.lua
+nvim diagnostics.lua
+nvim diagnostics.lua
+nvim diagnostics.lua
 cd
-cd .config/go
+ls
+nvim
+sudo pacman -S rust
+nvim
+sudo pacman -S php
+nvim
+sudo pacman -S clang
+nvim
+cd
+ssh terminal.shop
+paru
+paru
+nvim
+paru
+paru
+nvim
+nvim
+paru
+nvim
+nvim
+ls
+cd projects
+ls
+ls
+mkdir lowlevel
+cd lwo
+cd lowlevel
+ls
+par7
+paru
+nvim
+nvim
+ls
+cd ..
 ls
 cd
-cd dotfiles
-nvim .gitignore
-nvim .gitignore
-git add .
-git commit -m "sync"
-git push -u origin main
-git status
-git status
-ls
-git pull
-ls
-nvim .gitconfig
-nvim .gitignore
-cd .config/go/telemetry/
-ls
-cd ..
-ls
-cd ..
-ls
-rm -rf go
-ls
-rm -rf nvim-bak
-ls
-cd ..
-ls
-git add .
-git commit -m "sync"
-git push -u origin main
-git pull
-ls
-cd .config/
-ls
-cd go
-ls
-cd ..
-ls
-rm -rf go
+paru
+ndim
+ndim
+nvim
+nvim
+cd proj
 ls
 ls
-rm -rf go
+sudo pacman -S wireshark-cli
+tshark
+sudo tshark
+man open
+man 2 open
+man write
+man 2 write
+man 2 open
+man read
+man 2 read
+man 2 open
+cd lowleve
 ls
-cd go
+man make
+man makefile
+man Makefile
+info make
+info make
+bruh
+paru
+nvim
 ls
-cd ..
+nvim .zshenv
+paru
 ls
-sudo rm -rf go
+nvim
+paru
+sudo pacman -S ghc
+ghci
+paru
+nvim
+ghcup
+paru -S ghcup-hs-bin
+nvim
 ls
-cd go
+cd .config/zsh
 ls
+nvim .zshrc
+source .zshrc
+cd
+ll
+cd .config/zsh
 ls
-rm -rf telemetry
+nvim .zshrc
+source .zshrc
+cd
 ls
-sudo rm -rf telemetry
+ll
+ghci
+cd scra
 ls
-cd telemetry
+nvim test.hs
 ls
-cd ..
+ghc test.hs
+ghc-pkg check
+paru -S cabal-install
+ls
+ghc test.hs
+ghc-pkg check
+ghc -dynamic test.hs
+mv test.hs Main.hs
+ghc -dynamic Main.hs
+vim Main.hs
+nvim Main.hs
+cd
+cd .local/state/nvim
+ls
+nvim lsp.log
+cabal update
+cd
+cd .cabal/config
+ls
 cd 
-cd dotfiles/.config
+cd .cabal
 ls
-\rm -rf go
+nvim config
+cd
 ls
-sudo \rm -rf go
+ll
+vim .zshenv
+source .zshenv
+echo $PATH
+cd scratchpad
 ls
-cd go
+nvim Main.hs
 ls
-cd telemetry
+ghc Main.hs
+cabal
+man cabal
+cabal -h
+cabal build Main.hs
+nvim Main.hs
+ghc -dynamic Main.hs
 ls
-cd local
+ls
+./Main
 ls
 rm *
 ls
-nvim go@go1.24.3-go1.24.3-linux-amd64-2025-05-25.v1.count
 ls
-\rm go@go1.24.3-go1.24.3-linux-amd64-2025-05-25.v1.count
+ls -a
+ghci
 ls
-sudo \rm go@go1.24.3-go1.24.3-linux-amd64-2025-05-25.v1.count
+cd
+cd scratchpad
 ls
+vim test.hs
+nvim test.hs
+cd
+cd .local/state/nvim
 ls
-git pull
-git add .
-git commit -m "sync"
-git push -u origin main
+nvim lsp.log
+cd
+sudo pacman -S haskell-language-server
 ls
-cd ../../..
+cd scratchpad
+ls
+nvim test.hs
+cd
+cd .config/nvim
+ls
+nvim init.lua
+ls
+cd lua/config
+ls
+cd ../plugins
+ls
+nvim lsp.lua
+ls
+nvim format.lua
 ls
 cd ..
 ls
-nvim .gitignore
-git status
+cd plugins
 ls
-nvim .gitignore
-git add .
-git commit -m "sync"
-git push -u origin main
-nvim .gitignore
-git add .
-git commit -m "sync"
-git push -u origin main
-git status
+vim lsp.lua
+nvim lsp.lua
 ls
-nvim .gitignore
-git add .
-git commit -m "sync"
-git push -u origin main
-git status
-nvim .gitignore
-git add .
-git commit -m "sync"
-git push -u origin main
-git status
+cd ..
 ls
-rm -rf .config/go
 cd config
 ls
-cd  go
-ls
-\rm -rf *
-ls
-cd telemetry
-ls
-cd local
-ls
-ls -lah
-cd
-go telemetry off && go telemetry clean
-go telemetry off
-cd .config/go
-ls
-ls
-rm -rf telemetry
-ls
-ls -a
-cd
-go telemetry clean
-paru
-go help telemetry
-go telemetry off
-go telemetry
-cd .config/go
-ls
-rm -rf telemetry
-ls
-sudo rm -rf telemetry
-ls
-cd telemetry
-ls
-cd local
-ls
-sudo rm -rf go@go1.24.3-go1.24.3-linux-amd64-2025-05-25.v1.count
-ls -a
-ls -lah
-cd
-go get golang.org/telemetry/cmd/gotelemetry
-go install golang.org/telemetry/cmd/gotelemetry
-go install golang.org/telemetry/cmd/gotelemetry@latest
-cd .config/go
-ls -lah
-sudo su
+nvim lsp.lua
 ls
 cd ..
 ls
-cd go
+cd ..
+nvim init.lua
+nvim init.lua
+cd
 ls
-sudo su
+cd scratchpad
+nvim test.hs
+cd
+cd .config/nvim/lua/config
+ls
+nvim lsp.lua
+cd
+cd scratchpad
+nvim test.hs
+cd config
+ls
+nvim lsp.lua
+cd
+nvim test.hs
+haskell-language-server-wrapper --lsp
+ls
+cd .config/nvim
+ls
+nvim init.lua
+rm lua/config/lsp.lua
+cd plugins
+ls
+nvim haskell.lua
+nvim
+nvim test.hs
+ls
+nvim format.lua
+nvim test.hs
+cd
+nvim
+paru
+nvim test.hs
+ls
+rm test.hs
+paru
+paru
+nvim
+nvim
+nvim
+ls
+cd projects
+ls
+ls
+rm -rf ascii-shader
+ls
+rm -rf asm
+ls
+cd learncpp
+ls
+cd
+cd projects
+ls
+rm -rf clang learncpp
+ls
+git clone https://git.codecrafters.io/712c0ec2693fcdc2 codecrafters-git-cpp\
+cd codecrafters-git-cpp
+ls
+git commit --allow-empty -m 'test'\
+git push origin master
+ls
+nvim src/main.cpp
+ls
+git commit -am "uncommented"
+git push origin master
+ls
+vim your_program.sh
+nvim your_program.sh
+ls
+cd src
+ls
+nvim main.cpp
+paru
+sudo pacman -S zellij
+cd
+ls
+cd .config/zsh
 ls
 ls -a
+nvim .zshrc
+source .zshrc
+ls
+nvim .zshrc
+exit
+ls
+cd .config/zsh
+ls
+nvim .zshrc
+ls
+source .zshrc
+exit
+s
+ls
+cd .config/zsh
+ls
+nvim .zshrc
+exit
+ls
+zellij
+ls
+cd .config/zsh
+ls
+nvim .zshrc
+exit
+ls
+cd .config/zsh
+ls
+nvim .zshrc
+exit
+exit
+exit
+ls
+ls
+cd projects
+ls
+mkdir recipe
+ls
+cd recipe
+ls
+ls
+ls
+nvim
+nvim
+nvim
+nvim
+nvim
+nvim
+cd ..
+ls
+mkdir wyag
+cd wyag
+touch wyag
+touch libway.py
+ls
+nvim wyag
+ls
+chmod +x wyag
+ls
+ls
+exit
+paru
+nvim
 cd
-cd dotfiles
 ls
-git add .
-git commit -m "sync"
-git push -u origin main
 ls
-cd .config
+nvim .zshenv
+source .zshenv
 ls
-cd go
+exit
+exit
+exit
+exit
 ls
+echo $GOPATH
+ls
+source .zshenv
+echo $GOPATH
+ls
+nvim .zshenv
+ls
+ls .cache
+ls
+ls
+source .zshenv
+echo $GOPATH
+nvim
+cd
+ls
+ls
+rm -rf go
+ls
+exit
+exit
+ls
+ls
+ls
+ls
+cd proj
+ls
+mkdir ytsubs-to-rss
+cd ytsubs-to-rss
+ls
+ls
+go get -tool github.com/a-h/templ/cmd/templ@latest
+mkdir -p cmd/web templates static/css static/js handlers
+ls
+go mod init my-go-web-app
+ls
+rm go.mod
+ls
+go mod init ytsubs-to-rss
+ls
+go mod tidy
+go get github.com/a-h/templ
+go install github.com/a-h/templ/cmd/templ@latest
+npm init -y
+npm install -D tailwindcss @tailwindcss/forms
+npx tailwindcss init
+node
+npx --version
+npx tailwindcss init
+cat ~/.npm/_logs/2025-07-04T03_00_16_801Z-debug-0.log
+ls
+rm -rf package-lock.json package.json
+ls
+rm -rf node_modules
+ls
+npm install tailwindcss @tailwindcss/cli
+ls
+ls
+cd static
+ls
+cd css
+ls
+nvim input.css
 cd ../..
 ls
-nvim .gitignore
-git pull
-git reset --hard origin/main
+npx @tailwindcss/cli -i ./static/css/input.css -o ./static/css/output.css --watch
+cat static/css/output.css
+vim static/css/input.css
+nvim static/css/input.css
 ls
-cd .config
+nvim static/css/output.css
+ls
+cd
+cd zsh
+nvim .zshrc
+cd yt
+ls
+cd zsh
+source .zshrc
+cd yt
+ls
+start-tailwind
+start-tailwind & disown
+ls
+cd templates
+ls
+nvim base.templ
+nvim index.templ
+cd ../handlers
+nvim handlers.go
 ls
 cd ..
-cd .config
+ls
+nvim go.mod
+ls
+cd handlers
+ls
+nvim handlers.go
+cd ..
+ls
+cd templates
+ls
+cd ..
+ls
+cd handlers
+ls
+nvim handlers.go
+cd ..
+ls
+nvim go.mod
+cd handlers
+ls
+nvim handlers.go
+cd ..
+ls
+rm -rf *
+ls
+cd
+ls
+cd o
+cd
+cd o
+cd
+cd go
+ls
+cd
+rm -rf go
+cd .cache
+ls
+cd
+cd .local/share
+ls
+mkdir go
+ls
+cd
+nvim .zshenv
+echo $GOPATH
+cd .local/share
+ls
+cd
+ls
+ls
+ll
+rm .node_repl_history
+ls
+ll
+ls
+paru -S docker
+sudo su
+groups
+exit
+zellij
+exit
+groups
+sudo systemctl enable docker --now
+sudo systemctl status docker
+sudo systemctl enable docker --now
+sudo systemctl status docker
+ls
+cd scratchpad
+ls
+mkdir beginner_go
+cd beginner_go
+go mod init beginnerGo
+touch main.go
+ls
+nvim maim.go
+nvim main.go
+cd
+cd nvim
+ls
+cd lua
+ls
+cd plugins
+ls
+nvim diagnostics.lua
+cd
+cd begin
+ls
+nvim main.go
+cd nvim
+ls
+nvim lua/plugins/diagnostics.lua
+cd begin
+ls
+nvim main.go
+cd nvim
+nvim lua/plugins/diagnostics.lua
+cd begin
+ls
+nvim main.go
+ls
+echo $GOPATH
+nvim
+ls
+rm -rf go
+ls
+nvim test.go
+ls
+cd scratchpad
+mkdir example
+cd example
+ls
+cd ..
+ls
+rmdir example
+mkdir hello
+ls
+cd hello
+ls
+go mod init example/hello
+ls
+nvim hello.go
+go run .
+ls
+nvim go.mod
+cd ..
+ls
+rm -rf hello
+cd
+ls
+rm -rf go
+ls
+nvim
+ls
+cd Trash
+ls
+cd files
 ls
 cd go
 ls
-ls -lah
-cd ..
+cd pkg
 ls
-cd 
-cd dotfiles
+cd mod
 ls
 cd
-cd dotfiles
+zellij
 ls
-git fetch --all
-git reset --hard origin/main
+echo $PATH
 ls
-cd .config
+nvim
+ls
+ls
+nvim .zshenv
+ls
+rm -rf go
+ls
+nvim
+source .zshenv
+nvim
+ls
+nvim
+nvim test.go
+ls
+cd begin
+ls
+nvim main.go
+nvim main.go
+ls
+cd nvim
+ls
+cd lua
+ls
+cd config
+ls
+ls
+cd ../plugins
+ls
+nvim format.lua
+ls
+cd proj
+ls
+cd begin
+ls
+nvim main.go
+go run main.go
+nvim main.go
+go run main.go
+nvim main.go
+nvim test.py
+cd nvim
+ls
+nvim init.lua
+cd lua/config
+ls
+nvim diagnostics.lua
+cd ..
 ls
 cd ..
 ls
-git reset --hard origin/main
-ls .config
-git reset --hard HEAD\
-git pull
-ls .config
-git clean
-git clean -f
-ls .config
-git reset --hard HEAD\
-git pull
-git clean
-git clean -f
-ls .config
-git clean -n -f -d
+nvim init.lua
+nvim test.py
+nvim test.go
+ls
+cd lua
+ls
+cd plugins
+ls
+nvim diagnostics.lua
+nvim test.py
+nvim
+nvim diagnostics.lua
+nvim diagnostics.lua
+nvim diagnostics.lua
+nvim diagnostics.lu
+nvim diagnostics.lua
+nvim diagnostics.lua
+nvim diagnostics.lua
+nvim test.go
+ls
+nvim test.go
+nvim test.py
+ls
+nvim test.go
+nvim test.py
+nvim
+nvim test.go
+echo $PATH
+echo $PATH | grep go
 cd
 nvim .zshenv
-cd .config/zsh
-nvim .zshrc
-cd 
-cd dotfiles
+cd
+cd .local/share/go
+ls
 ls
 cd
-paru
-cd /etc
 ls
-nvim pacman.conf
-sudo nvim pacman.conf
+rm -rf go
+nvim .zshenv
+cd begin
+ls
+nvim main.go
+nvim main.go
+ls
+nvim main.go
+ssh renny@raspberrypi
+ping raspberrypi.local
+ssh renny@11.34.7.236
+ssh renny@11.34.7.236
+zellij
+zellij
+ls
+ping test.rennyhoang.com
+ssh renny@raspberrypi
+ls
+exit
 paru
+paru
+ls
+cd projects
+ls
+cd wyag
+ls
+ls
+nvim libway.py
+ls
+nvim wyag
+ls
+mv libway.py libwyag.py
+ls
+ls
+nvim wyag
+nvim libwyag.py
+ls
+nvim libwyag.py
 cd
-sudo pacman -Sy
-nvim test.cpp
+sudo pacman -S fish
+sudo pacman -S pkgfil
+sudo pacman -S pkgfile
+sudo pkgfile --update
+fish
+exit
+ssh renny@raspberrypi
+ls
+ssh renny@raspberrypi
+ssh renny@raspberrypi
+ls
+ssh renny@raspberrypi
+ssh renny@raspberrypi
+ssh renny@raspberrypi
+ssh renny@raspberrypi
+exit
+exit
