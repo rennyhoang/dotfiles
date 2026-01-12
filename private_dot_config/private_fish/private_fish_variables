@@ -1,0 +1,18 @@
+# This file contains fish universal variable definitions.
+# VERSION: 3.0
+SETUVAR --export PREFIX:/home/renny/opt/cross
+SETUVAR --export TARGET:i686\x2delf
+SETUVAR __fish_initialized:4300
+SETUVAR _fisher_jorgebucaran_2F_fisher_files:\x7e/\x2econfig/fish/functions/fisher\x2efish\x1e\x7e/\x2econfig/fish/completions/fisher\x2efish
+SETUVAR _fisher_jorgebucaran_2F_hydro_files:\x7e/\x2econfig/fish/functions/fish_mode_prompt\x2efish\x1e\x7e/\x2econfig/fish/functions/fish_prompt\x2efish\x1e\x7e/\x2econfig/fish/conf\x2ed/hydro\x2efish
+SETUVAR _fisher_plugins:jorgebucaran/fisher\x1ejorgebucaran/hydro
+SETUVAR _fisher_upgraded_to_4_4:\x1d
+SETUVAR _hydro_git_226:main\x20
+SETUVAR _hydro_git_316:main\x20
+SETUVAR _hydro_git_318:main\u2022\x20
+SETUVAR _hydro_git_40060:\x1d
+SETUVAR _hydro_git_40141:main\u2022\x20
+SETUVAR _hydro_git_41200:main\u2022\x20
+SETUVAR _hydro_git_763:main\u2022\x20
+SETUVAR _hydro_git_8805:\x1d
+SETUVAR fish_user_paths:/home/renny/opt/cross/bin
